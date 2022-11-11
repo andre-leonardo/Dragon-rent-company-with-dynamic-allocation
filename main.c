@@ -148,10 +148,10 @@ void listarElementos()
     
     for (i = 0; i < QuantidadeElementos(); i++)
     {
-        Elemento element = obterElementoPeloIndice(i);
-        if (element.codigo > 0)		
+        Elemento* element = obterElementoPeloIndice(i);
+        if (element->codigo > 0)		
             printf("\n%d - %s, vulnerabilidade: %s\n\n",
-            element.codigo, element.nome, element.vulnerabilidade);
+            element->codigo, element->nome, element->vulnerabilidade);
     }
     if (QuantidadeElementos() == 0)
     {
@@ -186,8 +186,8 @@ void funcaoCadastroDragao()
     
     for (i = 0; i < retornaTamanhoElementos(); i++)
     {
-    	Elemento element = obterElementoPeloIndice(i);
-    	if (element.codigo > 0)
+    	Elemento* element = obterElementoPeloIndice(i);
+    	if (element->codigo > 0)
 		{
 			dragon.codigo = QuantidadeDragoes() + 1;
 		
@@ -203,10 +203,10 @@ void funcaoCadastroDragao()
 		    scanf("%d", &dragon.codigoElemento);
 		    for (b = 0; b < retornaTamanhoElementos(); b++)
 			{
-				Elemento element = obterElementoPeloIndice(b);
-				printf("%s", element.nome);
-				if (dragon.codigoElemento == element.codigo)
-				strcpy(dragon.elemento, element.nome);
+				Elemento* element = obterElementoPeloIndice(b);
+				printf("%s", element->nome);
+				if (dragon.codigoElemento == element->codigo)
+					strcpy(dragon.elemento, element->nome);
 			}
 		    printf("Digite o valor do dragao: ");
 		    scanf("%f", &dragon.valor);
@@ -296,29 +296,34 @@ void alterarDragoes()
 	else if (opcao == 2)
 	{
 		printf("Digite a nova idade: ");
-		scanf("%d", mudancaInt);
+		scanf("%d", &mudancaInt);
 		r = atualizarDragao(mudancaInt, mudanca, 30, 2, codigo);
 	}
 	else if (opcao == 3)
 	{
 		listarElementos();
 		printf("Digite o codigo do novo elemento: ");
-		scanf("%d", mudancaInt);
-		r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
+		scanf("%d", &mudancaInt);
+		if (mudancaInt > QuantidadeElementos() || mudancaInt < 0)
+			r = 1;
+		else r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
 	}
 	else if (opcao == 4)
 	{
 		printf("Digite o novo valor: ");
-		scanf("%d", mudancaInt);
+		scanf("%d", &mudancaInt);
 		r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
 	}
 	else if (opcao == 5)
 	{
 		printf("Digite o novo estoque: ");
-		scanf("%d", mudancaInt);
+		scanf("%d", &mudancaInt);
 		r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
 	}
 	else printf("Numero invalido!n");
+
+	if (r = 0) printf("Informacao alterada com sucesso");
+	else printf("Erro ao alterar informacao");
 	
 			
 	} while (opcao != 0);
@@ -360,12 +365,12 @@ void funcaoPesquisarElemento()
 	scanf("%[^\n]s", procurado);
     for (i = 0; i < QuantidadeElementos(); i++)
     {
-        Elemento element = obterElementoPeloIndice(i);
-        if (strcmpi(procurado, element.nome));
+        Elemento* element = obterElementoPeloIndice(i);
+        if (strcmpi(procurado, element->nome));
         {
             printf("Elemento encontrado na posicao %d\n", i);
-            printf("Sua vulnerabilidade eh: %s\n", element.vulnerabilidade);
-            printf("Seu codigo eh: %d\n", element.codigo);
+            printf("Sua vulnerabilidade eh: %s\n", element->vulnerabilidade);
+            printf("Seu codigo eh: %d\n", element->codigo);
             break;
         }
     }

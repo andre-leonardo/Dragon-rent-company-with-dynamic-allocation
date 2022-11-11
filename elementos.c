@@ -70,17 +70,29 @@ int QuantidadeElementos()
     return qtdElemento;
 }
 
-Elemento obterElementoPeloIndice(int indice)
+Elemento* obterElementoPeloIndice(int indice)
 {
-    return elemento[indice];
+    Elemento* element = (Elemento*) malloc (sizeof(Elemento));
+	*element = elemento[indice];
+	return element;
 }
 
-Elemento obterElementoPeloCodigo(int codigo)
+Elemento* obterElementoPeloCodigo(int codigo)
 {
-
+    int i;
+	Elemento* Element = (Elemento*) malloc (sizeof(Elemento));
+	Element->codigo = codigo;
+	for(i = 0; i < qtdElemento; i++)
+	{
+		Elemento* element = obterElementoPeloIndice(i);
+		if (codigo == element->codigo)
+			*Element = *element;
+	}
+	
+	return Element;
 }
 
-Elemento obterElementoPeloNome (char* nome)
+Elemento* obterElementoPeloNome (char* nome)
 {
 	
 }

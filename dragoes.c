@@ -1,4 +1,5 @@
 #include "dragoes.h"
+#include "elementos.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -124,11 +125,16 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 	else if (opcao == 2)
 		dragao->idade = mudancaInt;
 	else if (opcao == 3)
-		dragao->codigoElemento = mudancaInt;	
+	{
+		Elemento* element = obterElementoPeloCodigo(mudancaInt);
+		dragao->codigoElemento = element->nome;
+		strcpy(dragao->elemento, element->nome);
+	}
 	else if (opcao == 4)
 		dragao->valor = mudancaInt;
 	else if (opcao == 5)
 		dragao->unidade = mudancaInt;
+	return 0;
 }
 
 Dragao* obterDragaoPeloNome (char* nome)
