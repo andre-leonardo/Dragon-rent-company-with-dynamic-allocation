@@ -207,7 +207,7 @@ void funcaoCadastroDragao()
 		    for (b = 0; b < retornaTamanhoElementos(); b++)
 			{
 				Elemento* element = obterElementoPeloIndice(b);
-				printf("%s", element->nome);
+				printf("%s\n", element->nome);
 				if (dragon.codigoElemento == element->codigo)
 					strcpy(dragon.elemento, element->nome);
 			}
@@ -571,10 +571,11 @@ int main(int argc, char *argv[]){
 	tempo = localtime(&segundos);  
 	printf("%d/%d/%d\n", tempo->tm_mday, tempo->tm_mon+1, tempo->tm_year+1900);
 
-	inicializarGuerreiros();
-	inicializarDragoes();
-	inicializarElementos();
-	inicializarLocacoes();
+	if (inicializarGuerreiros() == 0 || inicializarDragoes() == 0 || inicializarElementos() == 0 || inicializarLocacoes() == 0)
+	{
+		printf("Erro de alocacao dinamica!");
+		return 0;
+	}
     printf("-------------------\n");
     printf("LOCADORA DA KAHLEESI\n");
     printf("-------------------\n");
@@ -715,5 +716,5 @@ int main(int argc, char *argv[]){
 		
 		opcao = 1;
     } while(opcao != 0);
-
+	return 0;
 }

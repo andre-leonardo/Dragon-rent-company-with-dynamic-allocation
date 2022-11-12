@@ -14,7 +14,6 @@ int inicializarDragoes()
     dragao = (Dragao*) malloc (ARRSIZEDRAGAO * sizeof(Dragao));
     if (dragao == NULL)
 	{
-        printf("Erro de alocacao dinamica");
 		return 0;
 	}
 
@@ -34,7 +33,8 @@ int inicializarDragoes()
         dragao[0].idade = 25;
         dragao[0].valor = 48;
         dragao[0].unidade = 2;
-        strcpy(dragao[0].elemento, "pedra");
+        strcpy(dragao[0].elemento, "fogo");
+        dragao[0].codigoElemento = 1;
         qtdDragao = 1;
         return 1;
 }
@@ -126,7 +126,7 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 	else if (opcao == 3)
 	{
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
-		dragao[codigo-1].codigoElemento = element->nome;
+		dragao[codigo-1].codigoElemento = element->codigo;
 		strcpy(dragao[codigo-1].elemento, element->nome);
 	}
 	else if (opcao == 4)
@@ -159,28 +159,15 @@ Dragao* obterDragaoPeloNome (char* nome)
 
 int ApagarDragaoPeloCodigo(int codigo)
 {
-    int porcentagemArrays = ARRSIZEDRAGAO * 0.4;
-
-	for(i = 0; i < qtdDragao; i++)
-	{
-		if (dragao[i].codigo == codigo)
-		{
-			dragao[i] = dragao[qtdDragao-1];
-			dragao[qtdDragao - 1].codigo = 0;
-			qtdDragao--;
-
-			if (porcentagemArrays == qtdDragao && ARRSIZEDRAGAO > 5)
-			{
-				Dragao* ArrayMenor = realloc (dragao, (qtdDragao) * sizeof(Dragao));
-				if (ArrayMenor != NULL)
-				{
-					ARRSIZEDRAGAO = qtdDragao;
-					dragao = ArrayMenor;
-					return 2;
-				}else return 0;
-			}
-			return 1;
-		}
-	}
-	return 0;
+    for(i = 0; i < qtdDragao; i++)
+    {
+        if (dragao[i].codigo == codigo)
+        {
+            dragao[i] = dragao[qtdDragao-1];
+            dragao[qtdDragao - 1].codigo = 0;
+            qtdDragao--;
+            return 1;
+        }
+    }
+    return 0;
 }

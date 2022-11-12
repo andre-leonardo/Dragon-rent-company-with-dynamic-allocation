@@ -15,7 +15,6 @@ int inicializarGuerreiros()
 	guerreiro = (Guerreiro*) malloc (ARRSIZEGUERREIRO * sizeof(Guerreiro));
 	if (guerreiro == NULL)
 	{
-        printf("Erro de alocacao dinamica");
 		return 0;
 	}
 	

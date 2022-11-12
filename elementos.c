@@ -1,4 +1,5 @@
 #include "elementos.h"
+#include "dragoes.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -15,7 +16,6 @@ int inicializarElementos()
 	elemento = (Elemento*) malloc (ARRSIZEELEMENTO * sizeof(Elemento));
     if (elemento == NULL)
 	{
-        printf("Erro de alocacao dinamica");
 		return 0;
 	}
 	
@@ -35,7 +35,7 @@ int inicializarElementos()
 
 int retornaTamanhoElementos()
 {
-	return ARRSIZEELEMENTO;
+	return qtdElemento;
 }
 
 int encerraElementos()
@@ -93,14 +93,24 @@ Elemento* obterElementoPeloCodigo(int codigo)
 
 int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
 {
+	int i, r;
 	if (opcao == 1)
 	{
 		strcpy(elemento[codigo-1].nome, mudanca);
+		for (i = 0; i < QuantidadeDragoes(); i++)
+		{
+			Dragao* dragon = obterDragaoPeloIndice(i);
+			if (dragon->codigoElemento == codigo) //atualiza o elemento em dragao.c caso algum esteja usando o que foi alterado
+			{
+				r = atualizarDragao(codigo, mudanca, m, 3, dragon->codigo);
+			}
+		}
 	}
 	else if (opcao == 2)
 	{
 		strcpy(elemento[codigo-1].vulnerabilidade, mudanca);
 	}
+	
 	return 0;
 }
 

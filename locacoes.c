@@ -16,7 +16,6 @@ int inicializarLocacoes()
 	locacao = (Locacao*) malloc (ARRSIZELOCACAO * sizeof(Locacao));
     if (locacao == NULL)
 	{
-        printf("Erro de alocacao dinamica");
 		return 0;
 	}
 	
