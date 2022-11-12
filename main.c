@@ -278,8 +278,6 @@ void alterarDragoes()
 	printf("Digite o codigo do dragao que deseja alterar: ");
 	scanf("%d", &codigo);
 	
-
-	
 	do
 	{
 	printf("\n0 - Finalizar\n1 - Alterar nome\n2 - Alterar idade\n3 - Alterar elemento\n4 - Alterar valor\n5 - Alterar Unidades\n");
