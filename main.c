@@ -68,7 +68,7 @@ void funcaoPesquisarGuerreiro()
 	Guerreiro* warrior = obterGuerreiroPeloNome(procurado);
 	
 	if (warrior == NULL)
-		printf("Nenhum guerreiro encontrado");
+		printf("Nenhum guerreiro com este nome encontrado");
 	else{
 		printf("O codigo do guerreiro eh: %d\n", warrior->codigo);
         printf("Seu reino eh: %s\n", warrior->reino);
@@ -83,8 +83,11 @@ void funcaoExcluirGuerreiro()
     int codigo;
     printf("Digite o codigo do guerreiro que deseja APAGAR: ");
 	scanf("%d", &codigo);
-	if (ApagarGuerreiroPeloCodigo(codigo)==1)
+	int r = ApagarGuerreiroPeloCodigo(codigo);
+	if (r==1)
 		printf("Guerreiro APAGADO com sucesso!\n");
+	else if (r==2)
+		printf("Guerreiro APAGADO com sucesso!\nARRAY DIMINUIDO\n");
 	else
 		printf("Falha ao apagar o guerreiro!\n");
 }
@@ -241,7 +244,7 @@ void funcaoPesquisarDragao()
 	Dragao* dragon = obterDragaoPeloNome(procurado);
 	
 	if (dragon == NULL)
-		printf("Nenhum dragao encontrado");
+		printf("Nenhum dragao com este nome encontrado\n");
 	else{
 		printf("O codigo do dragao eh: %d\n", dragon->codigo);
         printf("Sua idade eh: %d\n", dragon->idade);
@@ -260,6 +263,8 @@ void funcaoExcluirDragao()
 	scanf("%d", &codigo);
 	if (ApagarDragaoPeloCodigo(codigo)==1)
 		printf("Dragao APAGADO com sucesso!\n");
+	else if (ApagarDragaoPeloCodigo(codigo)==2)
+		printf("Dragao APAGADO com sucesso!\nARRAY DIMINUIDO\n");
 	else
 		printf("Falha ao apagar o dragao!\n");
 }
@@ -363,18 +368,17 @@ void funcaoPesquisarElemento()
     fflush(stdin);
     printf("Digite o nome do elemento : ");
 	scanf("%[^\n]s", procurado);
-    for (i = 0; i < QuantidadeElementos(); i++)
-    {
-        Elemento* element = obterElementoPeloIndice(i);
-        if (strcmpi(procurado, element->nome));
-        {
-            printf("Elemento encontrado na posicao %d\n", i);
+    Elemento* element = obterElementoPeloNome(procurado);
+        if (element == NULL) 
+				printf("Nenhum elemento com este nome encontrado\n");
+    	else
+		{
+            printf("O codigo do elemento eh %d\n", element->codigo);
             printf("Sua vulnerabilidade eh: %s\n", element->vulnerabilidade);
             printf("Seu codigo eh: %d\n", element->codigo);
-            break;
+			free(element);
         }
     }
-}
 
 void funcaoExcluirElemento()
 {
@@ -384,6 +388,8 @@ void funcaoExcluirElemento()
 	scanf("%d", &codigo);
 	if (ApagarElementoPeloCodigo(codigo)==1)
 		printf("Elemento APAGADO com sucesso!\n");
+	if (ApagarElementoPeloCodigo(codigo)==2)
+		printf("Elemento APAGADO com sucesso!\nARRAY DIMINUIDO\n");
 	else
 		printf("Falha ao apagar o elemento !\n");
 }
@@ -396,8 +402,6 @@ void alterarElementos()
 	int codigo;
 	printf("Digite o codigo do elemento que deseja alterar: ");
 	scanf("%d", &codigo);
-	
-
 	
 	do
 	{
@@ -665,7 +669,7 @@ int main(int argc, char *argv[]){
 					funcaoCadastroElemento();
 				else if (opcao == 2)
 	            {
-					listarLocacoes();
+					funcaoPesquisarElemento();
 	            }
 				else if (opcao == 3)
 	            {

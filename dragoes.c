@@ -119,21 +119,20 @@ Dragao* obterDragaoPeloCodigo(int codigo)
 
 int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 {
-	Dragao* dragon = obterDragaoPeloCodigo(codigo);
 	if (opcao == 1)
-		strcpy(dragao->nome, mudanca);
+		strcpy(dragao[codigo-1].nome, mudanca);
 	else if (opcao == 2)
 		dragao->idade = mudancaInt;
 	else if (opcao == 3)
 	{
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
-		dragao->codigoElemento = element->nome;
-		strcpy(dragao->elemento, element->nome);
+		dragao[codigo-1].codigoElemento = element->nome;
+		strcpy(dragao[codigo-1].elemento, element->nome);
 	}
 	else if (opcao == 4)
-		dragao->valor = mudancaInt;
+		dragao[codigo-1].valor = mudancaInt;
 	else if (opcao == 5)
-		dragao->unidade = mudancaInt;
+		dragao[codigo-1].unidade = mudancaInt;
 	return 0;
 }
 
@@ -154,21 +153,34 @@ Dragao* obterDragaoPeloNome (char* nome)
     }
     if (cont == 0)
     {
-    	Dragon = NULL;
+    	return Dragon = NULL;
 	}
 }
 
 int ApagarDragaoPeloCodigo(int codigo)
 {
-    for(i = 0; i < qtdDragao; i++)
-    {
-        if (dragao[i].codigo == codigo)
-        {
-            dragao[i] = dragao[qtdDragao-1];
-            dragao[qtdDragao - 1].codigo = 0;
-            qtdDragao--;
-            return 1;
-        }
-    }
-    return 0;
+    int porcentagemArrays = ARRSIZEDRAGAO * 0.4;
+
+	for(i = 0; i < qtdDragao; i++)
+	{
+		if (dragao[i].codigo == codigo)
+		{
+			dragao[i] = dragao[qtdDragao-1];
+			dragao[qtdDragao - 1].codigo = 0;
+			qtdDragao--;
+
+			if (porcentagemArrays == qtdDragao && ARRSIZEDRAGAO > 5)
+			{
+				Dragao* ArrayMenor = realloc (dragao, (qtdDragao) * sizeof(Dragao));
+				if (ArrayMenor != NULL)
+				{
+					ARRSIZEDRAGAO = qtdDragao;
+					dragao = ArrayMenor;
+					return 2;
+				}else return 0;
+			}
+			return 1;
+		}
+	}
+	return 0;
 }

@@ -84,9 +84,8 @@ Elemento* obterElementoPeloCodigo(int codigo)
 	Element->codigo = codigo;
 	for(i = 0; i < qtdElemento; i++)
 	{
-		Elemento* element = obterElementoPeloIndice(i);
-		if (codigo == element->codigo)
-			*Element = *element;
+		if (codigo == elemento->codigo)
+			*Element = elemento[codigo-1];
 	}
 	
 	return Element;
@@ -94,30 +93,62 @@ Elemento* obterElementoPeloCodigo(int codigo)
 
 int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
 {
-	Elemento* element = obterElementoPeloCodigo(codigo);
 	if (opcao == 1)
-		strcpy(elemento->nome, mudanca);
+	{
+		strcpy(elemento[codigo-1].nome, mudanca);
+	}
 	else if (opcao == 2)
-		strcpy(elemento->vulnerabilidade, mudanca);
+	{
+		strcpy(elemento[codigo-1].vulnerabilidade, mudanca);
+	}
 	return 0;
 }
 
 Elemento* obterElementoPeloNome (char* nome)
 {
+	int cont = 0;
+	Elemento* Element = (Elemento*) malloc (sizeof(Elemento));
 	
+	for (i = 0; i < qtdElemento; i++)
+    {
+    	*Element = elemento[i];
+        Elemento* element = obterElementoPeloIndice(i);
+        if (strcmpi(nome, element->nome) == 0)
+        {
+            return Element;
+        }
+
+    }
+    if (cont == 0)
+    {
+    	return Element = NULL;
+	}
 }
 
 int ApagarElementoPeloCodigo(int codigo)
 {
-    for(i = 0; i < qtdElemento; i++)
-    {
-        if (elemento[i].codigo == codigo)
-        {
-            elemento[i] = elemento[qtdElemento-1];
-            elemento[qtdElemento - 1].codigo = 0;
-            qtdElemento--;
-            return 1;
-        }
-    }
-    return 0;
+    int porcentagemArrays = ARRSIZEELEMENTO * 0.4;
+
+	for(i = 0; i < qtdElemento; i++)
+	{
+		if (elemento[i].codigo == codigo)
+		{
+			elemento[i] = elemento[qtdElemento-1];
+			elemento[qtdElemento - 1].codigo = 0;
+			qtdElemento--;
+
+			if (porcentagemArrays == qtdElemento && ARRSIZEELEMENTO > 5)
+			{
+				Elemento* ArrayMenor = realloc (elemento, (qtdElemento) * sizeof(Elemento));
+				if (ArrayMenor != NULL)
+				{
+					ARRSIZEELEMENTO = qtdElemento;
+					elemento = ArrayMenor;
+					return 2;
+				}else return 0;
+			}
+			return 1;
+		}
+	}
+	return 0;
 }

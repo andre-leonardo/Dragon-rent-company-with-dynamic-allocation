@@ -113,13 +113,12 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo)
 
 int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 {
-	Guerreiro* warrior = obterGuerreiroPeloCodigo(codigo);
 	if (opcao == 1)
-		strcpy(guerreiro->nome, mudanca);
+		strcpy(guerreiro[codigo-1].nome, mudanca);
 	else if (opcao == 2)
-		strcpy(guerreiro->titulo, mudanca);
+		strcpy(guerreiro[codigo-1].titulo, mudanca);
 	else if (opcao == 3)
-		strcpy(guerreiro->reino, mudanca);	
+		strcpy(guerreiro[codigo-1].reino, mudanca);	
 }
 
 Guerreiro* obterGuerreiroPeloNome (char* nome)
@@ -146,7 +145,6 @@ Guerreiro* obterGuerreiroPeloNome (char* nome)
 int ApagarGuerreiroPeloCodigo(int codigo)
 {
 	int porcentagemArrays = ARRSIZEGUERREIRO * 0.4;
-	printf("porcentagem %d\n", porcentagemArrays);
 	
     for(i = 0; i < qtdGuerreiro; i++)
     {
@@ -155,17 +153,15 @@ int ApagarGuerreiroPeloCodigo(int codigo)
             guerreiro[i] = guerreiro[qtdGuerreiro-1];
             guerreiro[qtdGuerreiro - 1].codigo = 0;
             qtdGuerreiro--;
-            if (porcentagemArrays == qtdGuerreiro + 1 && ARRSIZEGUERREIRO > 5)
+            if (porcentagemArrays == qtdGuerreiro && ARRSIZEGUERREIRO > 5)
 			{
 	    		Guerreiro* ArrayMenor = realloc (guerreiro, (qtdGuerreiro)  * sizeof(Guerreiro));
-	    		printf("tamanho %d\n", sizeof(guerreiro));
 	    		if (ArrayMenor != NULL)
 	    		{
 	    			ARRSIZEGUERREIRO = qtdGuerreiro;
 	    			guerreiro = ArrayMenor;
-	    			printf("arr size guerreiro %d\n", ARRSIZEGUERREIRO);
-				}else return 0;
-				
+	    			return 2;
+				}else return 0;	
 			}
 			return 1;
         }
