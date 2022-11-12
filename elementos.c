@@ -92,6 +92,16 @@ Elemento* obterElementoPeloCodigo(int codigo)
 	return Element;
 }
 
+int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
+{
+	Elemento* element = obterElementoPeloCodigo(codigo);
+	if (opcao == 1)
+		strcpy(elemento->nome, mudanca);
+	else if (opcao == 2)
+		strcpy(elemento->vulnerabilidade, mudanca);
+	return 0;
+}
+
 Elemento* obterElementoPeloNome (char* nome)
 {
 	

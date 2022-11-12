@@ -81,7 +81,7 @@ int ApagarLocacaoPeloCodigo(int codigo)
 {
     for(i = 0; i < qtdLocacao; i++)
     {
-    	Dragao dragao = obterDragaoPeloIndice(i);
+    	Dragao* dragao = obterDragaoPeloIndice(i);
         if (locacao[i].codigoLocacao == codigo)
         {
             locacao[i] = locacao[qtdLocacao-1];
@@ -89,9 +89,9 @@ int ApagarLocacaoPeloCodigo(int codigo)
             int b;
             for (b = 0; b < 8; b++)
             {
-            	if (dragao.unidadeAnterior[b] != 0)
+            	if (dragao->unidadeAnterior[b] != 0)
             	{
-            		dragao.unidade = dragao.unidadeAnterior[b];
+            		dragao->unidade = dragao->unidadeAnterior[b];
             		break;
 				}	
 			}

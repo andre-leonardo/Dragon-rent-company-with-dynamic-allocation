@@ -270,7 +270,7 @@ void alterarDragoes()
 	char mudanca[30];
 	listarDragoes();
 	int codigo;
-	printf("Digite o codigo do guerreiro que deseja alterar: ");
+	printf("Digite o codigo do dragao que deseja alterar: ");
 	scanf("%d", &codigo);
 	
 
@@ -322,7 +322,7 @@ void alterarDragoes()
 	}
 	else printf("Numero invalido!n");
 
-	if (r = 0) printf("Informacao alterada com sucesso");
+	if (r == 0) printf("Informacao alterada com sucesso");
 	else printf("Erro ao alterar informacao");
 	
 			
@@ -386,6 +386,52 @@ void funcaoExcluirElemento()
 		printf("Elemento APAGADO com sucesso!\n");
 	else
 		printf("Falha ao apagar o elemento !\n");
+}
+
+void alterarElementos()
+{
+	int i, opcao, r;
+	char mudanca[30];
+	listarElementos();
+	int codigo;
+	printf("Digite o codigo do elemento que deseja alterar: ");
+	scanf("%d", &codigo);
+	
+
+	
+	do
+	{
+	printf("\n0 - Finalizar\n1 - Alterar nome\n2 - Alterar vulnerabilidade\n");
+	printf("Digite a numero do que deseja alterar: ");
+	scanf("%d", &opcao);
+	
+	if (opcao == 0)
+	{
+		printf("Finalizado!\n");
+		break;
+	}
+	else if (opcao == 1)
+	{
+		printf("Digite o novo nome: ");
+		fflush(stdin);
+		scanf("%[^\n]s", mudanca);
+		r = atualizarElemento(mudanca, 30, 1, codigo);
+	}
+	else if (opcao == 2)
+	{
+		printf("Digite a nova vulnerabilidade: ");
+		fflush(stdin);
+		scanf("%[^\n]s", mudanca);
+		r = atualizarElemento(mudanca, 30, 2, codigo);
+	}
+	else printf("Numero invalido!n");
+
+	if (r == 0) printf("Informacao alterada com sucesso");
+	else printf("Erro ao alterar informacao");
+	
+			
+	} while (opcao != 0);
+		
 }
 
 
@@ -628,6 +674,10 @@ int main(int argc, char *argv[]){
 	            else if (opcao == 4)
 	            {
 	                listarElementos();
+	            }
+	            else if (opcao == 5)
+	            {
+	                alterarElementos();
 	            }
 				else
 					printf("Opcao invalida");
