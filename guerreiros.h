@@ -3,7 +3,6 @@ typedef struct {
 	char nome[30];
 	char reino[30];
 	char titulo[30];
-	int checarLocacao;
 } Guerreiro;
 
 
@@ -16,3 +15,5 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo);
 Guerreiro* obterGuerreiroPeloNome (char* nome);
 int ApagarGuerreiroPeloCodigo(int codigo);
 int atualizarGuerreiro(char* mudanca, int m,int opcao,int codigo);
+
+//int registrarMudancaGuerr(int loc, int cod);

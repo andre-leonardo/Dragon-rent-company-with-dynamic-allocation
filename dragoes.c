@@ -25,8 +25,8 @@ int inicializarDragoes()
         dragao[i].valor = 0;
         dragao[i].unidade = 0;
         // dragao[i].elemento[0] = '\0';
-        dragao[i].checarLocacao = 0;
-        dragao[i].unidadeAnterior[i] = 0;
+        // dragao[i].checarLocacao = 0;
+        // dragao[i].unidadeAnterior[i] = 0;
     }
     	dragao[0].codigo = 1;
         strcpy(dragao[0].nome, "pedrao");
@@ -43,27 +43,6 @@ int inicializarDragoes()
 int encerraDragoes()
 {}
 
-int salvarEstoque(int quantidade)
-{
-	for (i = 0; i < 10; i++)
-	{
-		if (dragao->unidadeAnterior[i] == 0)
-			dragao->unidadeAnterior[i] = dragao->unidade;
-			break;
-	}
-}
-
-int diminuirEstoque(int quantidade)
-{
-	for (i = 0; i < 10; i++)
-	{
-	}
-	if (quantidade <= dragao->unidade)
-	{
-		dragao->unidade -= quantidade;
-		return 1;
-	} else return 0;
-}
 
 
 int salvarDragao(Dragao dragon)
@@ -94,6 +73,19 @@ int QuantidadeDragoes()
 {
     return qtdDragao;
 }
+int registrarMudancaDrag(int qtd, int cod)//alterar o valor de unidade
+{
+	int i;
+	for (i = 0; i < QuantidadeDragoes; i++)
+	{
+		if (cod == dragao[i].codigo)
+		{
+			dragao[i].unidade = qtd;
+			return 0;
+		}
+	}
+	return 1;
+}
 
 Dragao* obterDragaoPeloIndice(int indice)
 {
@@ -106,15 +98,14 @@ Dragao* obterDragaoPeloCodigo(int codigo)
 {
 	int i;
 	Dragao* Dragon = (Dragao*) malloc (sizeof(Dragao));
-	Dragon->codigo = codigo;
 	for(i = 0; i < qtdDragao; i++)
 	{
-		Dragao* dragon = obterDragaoPeloIndice(i);
-		if (codigo == dragon->codigo)
-			*Dragon = *dragon;
+		if (dragao[i].codigo == codigo)
+		{
+			*Dragon = dragao[i];
+			return Dragon;
+		}		
 	}
-	
-	return Dragon;
 }
 
 int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
@@ -122,7 +113,7 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 	if (opcao == 1)
 		strcpy(dragao[codigo-1].nome, mudanca);
 	else if (opcao == 2)
-		dragao->idade = mudancaInt;
+		dragao[codigo-1].idade = mudancaInt;
 	else if (opcao == 3)
 	{
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
@@ -144,8 +135,7 @@ Dragao* obterDragaoPeloNome (char* nome)
 	for (i = 0; i < qtdDragao; i++)
     {
     	*Dragon = dragao[i];
-        Dragao* dragon = obterDragaoPeloIndice(i);
-        if (strcmpi(nome, dragon->nome) == 0)
+        if (strcmpi(nome, dragao[i].nome) == 0)
         {
             return Dragon;
         }

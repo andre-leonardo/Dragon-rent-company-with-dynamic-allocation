@@ -24,7 +24,7 @@ int inicializarGuerreiros()
         guerreiro[i].nome[0] = '\0';
         guerreiro[i].titulo[0] = '\0';
         guerreiro[i].reino[0] = '\0';
-        guerreiro[i].checarLocacao = 0;
+        // guerreiro[i].checarLocacao = 0;
     }
     guerreiro[0].codigo = 1;
     strcpy(guerreiro[0].nome, "adalberto");
@@ -82,6 +82,12 @@ int salvarGuerreiro(Guerreiro warrior)
     	return 0;
 }
 
+// int registrarMudancaGuerr(int loc, int cod)
+// {
+// 	Guerreiro* warrior = obterGuerreiroPeloCodigo(cod);
+// 	warrior->checarLocacao = warrior->checarLocacao;
+// }
+
 int QuantidadeGuerreiros()
 {
     return qtdGuerreiro;
@@ -101,9 +107,11 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo)
 	Warrior->codigo = codigo;
 	for(i = 0; i < qtdGuerreiro; i++)
 	{
-		Guerreiro* warrior = obterGuerreiroPeloIndice(i);
-		if (codigo == warrior->codigo)
-			*Warrior = *warrior;
+		if (guerreiro[i].codigo == codigo)
+		{
+			*Warrior = guerreiro[i];
+			return Warrior;
+		}
 			
 	}
 	
@@ -128,12 +136,10 @@ Guerreiro* obterGuerreiroPeloNome (char* nome)
 	for (i = 0; i < qtdGuerreiro; i++)
     {
     	*Warrior = guerreiro[i];
-        Guerreiro* warrior = obterGuerreiroPeloIndice(i);
-        if (strcmpi(nome, warrior->nome) == 0)
+        if (strcmpi(nome, guerreiro[i].nome) == 0)
         {
             return Warrior;
         }
-
     }
     if (cont == 0)
     {

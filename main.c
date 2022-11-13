@@ -315,13 +315,13 @@ void alterarDragoes()
 	{
 		printf("Digite o novo valor: ");
 		scanf("%d", &mudancaInt);
-		r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
+		r = atualizarDragao(mudancaInt, mudanca, 30, 4, codigo);
 	}
 	else if (opcao == 5)
 	{
 		printf("Digite o novo estoque: ");
 		scanf("%d", &mudancaInt);
-		r = atualizarDragao(mudancaInt, mudanca, 30, 3, codigo);
+		r = atualizarDragao(mudancaInt, mudanca, 30, 5, codigo);
 	}
 	else printf("Numero invalido!n");
 
@@ -443,18 +443,21 @@ void listarLocacoes()
 {
 	int i;
 
-    
-    for (i = 0; i < QuantidadeLocacoes(); i++)
-    {
-        Locacao location = obterLocacaoPeloIndice(i);
-        if (location.codigoLocacao > 0)		
-            printf("\n%d - %s, locado por: %s\n\n",
-            location.codigoLocacao, location.nomeDragaoLocado, location.nomeGuerreiroLocador);
-    }
-    if (QuantidadeLocacoes() == 0)
+	if (QuantidadeLocacoes() == 0)
     {
         printf("NENHUMA LOCACAO REALIZADA\n");
     }
+    else
+	{
+		for (i = 0; i < QuantidadeLocacoes(); i++)
+		{
+			Locacao* location = obterLocacaoPeloIndice(i);
+			if (location->codigoLocacao > 0)		
+				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros pagos diariamente\n\n",
+				location->codigoLocacao, location->quantidadeLocada, location->nomeDragaoLocado, 
+				location->nomeGuerreiroLocador, location->valorDiario);
+		}
+	}
 }
 
 void funcaoRealizarLocacao()
@@ -462,8 +465,6 @@ void funcaoRealizarLocacao()
 	int opcao, i;
     Locacao location;
     int quantidade;
-    Guerreiro warrior;
-    Dragao dragon;
 	
 	location.codigoLocacao = QuantidadeLocacoes() + 1;
 	
@@ -471,52 +472,22 @@ void funcaoRealizarLocacao()
 	printf("Digite o codigo do guerreiro: ");
     scanf("%d", &location.codigoGuerreiroLocador);
 
-    for (i = 0; i < retornaTamanhoLocacoes(); i++)
-    {
-        Guerreiro* warrior = obterGuerreiroPeloIndice(i);
-        if (location.codigoGuerreiroLocador == warrior->codigo)
-        {
-            strcpy(location.nomeGuerreiroLocador, warrior->nome);
-            break;
-        }
-    }
+    
 	listarDragoes();
     printf("Digite o codigo do dragao: ");
     scanf("%d", &location.codigoDragaoLocado);
-    for (i = 0; i < retornaTamanhoLocacoes(); i++)
-    {
-        Dragao* dragon = obterDragaoPeloIndice(i);
-        if (location.codigoDragaoLocado == dragon->codigo && dragon->checarLocacao == 0)
-        {
-            strcpy(location.nomeDragaoLocado, dragon->nome);
-            dragon->checarLocacao = 1;
-            while (opcao != 0)
-		    {
-		    	int r = 0;
-			    printf("Digite quantos dragoes quer locar: ");
-			    scanf("%d", &quantidade);
-			    if (quantidade > 0)
-			    for (i = 0; i < 8; i++)
-			    	{
-			    		if (dragon->unidadeAnterior[i] == 0)
-			    		dragon->unidadeAnterior[i] = dragon->unidade;
-					}
-			    	r = diminuirEstoque(quantidade);
-			    	
-				
-			    if (r == 1)
-			    {
-			    	break;
-				}
-		    	else printf("Quantidade maior do que o que esta disponivel ou igual a/menor do que zero\n");
-			}
-            break;
-        }
-    }
-    
 
-    if (salvarLocacao(location) == 1)
+
+	printf("Digite quantos dragoes quer locar: ");
+	scanf("%d", &quantidade);
+
+    
+	int r = salvarLocacao(location, location.codigoDragaoLocado, location.codigoGuerreiroLocador, quantidade);
+    
+	if (r == 1)
         printf("Locacao realizada com sucesso!\n");
+	else if (r == 2)
+        printf("Quantidade invalida!\n");
     else
         printf("Falha ao realizar locacao!\n");
 }
@@ -574,6 +545,7 @@ int main(int argc, char *argv[]){
 		printf("Erro de alocacao dinamica!");
 		return 0;
 	}
+
     printf("-------------------\n");
     printf("LOCADORA DA KAHLEESI\n");
     printf("-------------------\n");
