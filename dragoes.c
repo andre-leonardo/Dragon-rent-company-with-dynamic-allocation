@@ -25,7 +25,7 @@ int inicializarDragoes()
         dragao[i].valor = 0;
         dragao[i].unidade = 0;
         // dragao[i].elemento[0] = '\0';
-        // dragao[i].checarLocacao = 0;
+        dragao[i].checarLocacao = 0;
         // dragao[i].unidadeAnterior[i] = 0;
     }
     	dragao[0].codigo = 1;
@@ -76,15 +76,45 @@ int QuantidadeDragoes()
 int registrarMudancaDrag(int qtd, int cod)//alterar o valor de unidade
 {
 	int i;
-	for (i = 0; i < QuantidadeDragoes; i++)
-	{
-		if (cod == dragao[i].codigo)
+	Dragao* dragon = obterDragaoPeloCodigo(cod);
+	for (i = 0; i < qtdDragao; i++)
 		{
-			dragao[i].unidade = qtd;
-			return 0;
+
+			if (dragao[i].codigo == dragon->codigo)
+			{
+				dragao[i].unidade = qtd;
+				return 0;
+			}
 		}
-	}
 	return 1;
+}
+
+int registrarLocacaoDrag(int cod, int aumentarOuDiminuir)
+{
+	int i;
+
+	if (aumentarOuDiminuir == 1)
+	{
+		for (i = 0; i < qtdDragao; i++)
+		{
+			if (dragao[i].codigo == cod)
+			{
+				dragao[i].checarLocacao = dragao[i].checarLocacao + 1;
+				return 1;
+			}
+		}	
+	}
+	if (aumentarOuDiminuir == 2)
+	{
+		for (i = 0; i < qtdDragao; i++)
+		{
+			if (dragao[i].codigo == cod)
+			{
+				dragao[i].checarLocacao = dragao[i].checarLocacao - 1;
+				return 2;
+			}
+		}	
+	}
 }
 
 Dragao* obterDragaoPeloIndice(int indice)
@@ -149,13 +179,27 @@ Dragao* obterDragaoPeloNome (char* nome)
 
 int ApagarDragaoPeloCodigo(int codigo)
 {
+	int porcentagemArrays = ARRSIZEDRAGAO * 0.4;
+
     for(i = 0; i < qtdDragao; i++)
     {
         if (dragao[i].codigo == codigo)
         {
+			if (dragao[i].checarLocacao > 0)
+				return 3;
             dragao[i] = dragao[qtdDragao-1];
             dragao[qtdDragao - 1].codigo = 0;
             qtdDragao--;
+			if (porcentagemArrays == qtdDragao && ARRSIZEDRAGAO > 5)
+			{
+				Dragao* ArrayMenor = realloc (dragao, (qtdDragao) * sizeof(Dragao));
+				if (ArrayMenor != NULL)
+				{
+					ARRSIZEDRAGAO = qtdDragao;
+					dragao = ArrayMenor;
+					return 2;
+				}else return 0;
+			}
             return 1;
         }
     }

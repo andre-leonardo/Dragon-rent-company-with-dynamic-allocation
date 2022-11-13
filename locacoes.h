@@ -6,6 +6,8 @@ typedef struct {
 	float valorDiario;
 	char nomeGuerreiroLocador[30];
 	char nomeDragaoLocado[30];
+	char dataInicio[30];
+	char dataFim[30];
 } Locacao;
 
 
@@ -16,4 +18,4 @@ int salvarLocacao(Locacao c, int codDrag, int codGuerr, int qtd);
 int QuantidadeLocacoes();
 Locacao* obterLocacaoPeloIndice(int codigoLocacao);
 Locacao* obterLocacaoPeloCodigo(int codigoLocacao);
-int ApagarLocacaoPeloCodigo(int codigo);
+int DevolverLocacaoPeloCodigo(int codigo);

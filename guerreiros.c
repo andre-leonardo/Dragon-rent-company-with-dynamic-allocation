@@ -24,7 +24,7 @@ int inicializarGuerreiros()
         guerreiro[i].nome[0] = '\0';
         guerreiro[i].titulo[0] = '\0';
         guerreiro[i].reino[0] = '\0';
-        // guerreiro[i].checarLocacao = 0;
+        guerreiro[i].checarLocacao = 0;
     }
     guerreiro[0].codigo = 1;
     strcpy(guerreiro[0].nome, "adalberto");
@@ -82,11 +82,33 @@ int salvarGuerreiro(Guerreiro warrior)
     	return 0;
 }
 
-// int registrarMudancaGuerr(int loc, int cod)
-// {
-// 	Guerreiro* warrior = obterGuerreiroPeloCodigo(cod);
-// 	warrior->checarLocacao = warrior->checarLocacao;
-// }
+int registrarLocacaoGuerr(int cod, int aumentarOuDiminuir)
+{
+	int i;
+
+	if (aumentarOuDiminuir == 1)
+	{
+		for (i = 0; i < qtdGuerreiro; i++)
+		{
+			if (guerreiro[i].codigo == cod)
+			{
+				guerreiro[i].checarLocacao = guerreiro[i].checarLocacao + 1;
+				break;
+			}
+		}	
+	}
+	else
+	{
+		for (i = 0; i < qtdGuerreiro; i++)
+		{
+			if (guerreiro[i].codigo == cod)
+			{
+				guerreiro[i].checarLocacao = guerreiro[i].checarLocacao - 1;
+				break;
+			}
+		}	
+	}
+}
 
 int QuantidadeGuerreiros()
 {
@@ -153,8 +175,11 @@ int ApagarGuerreiroPeloCodigo(int codigo)
 	
     for(i = 0; i < qtdGuerreiro; i++)
     {
+
         if (guerreiro[i].codigo == codigo)
         {
+			if (guerreiro[i].checarLocacao > 0)
+				return 3;
             guerreiro[i] = guerreiro[qtdGuerreiro-1];
             guerreiro[qtdGuerreiro - 1].codigo = 0;
             qtdGuerreiro--;

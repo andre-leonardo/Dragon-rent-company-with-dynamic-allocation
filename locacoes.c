@@ -5,6 +5,16 @@
 #include <string.h>
 
 
+
+// char* time()
+// {
+//     struct tm *tempo;
+//     time_t segundos;
+//     time(&segundos); 
+//     tempo = localtime(&segundos);
+//     return asctime(tempo);
+// }
+
 int ARRSIZELOCACAO =  5;
 
 Locacao* locacao = NULL;
@@ -25,6 +35,8 @@ int inicializarLocacoes()
         locacao[i].codigoGuerreiroLocador = 0;
         locacao[i].codigoDragaoLocado = 0;
         locacao[i].quantidadeLocada = 0;
+        strcpy(locacao[i].dataFim, "\0");
+        strcpy(locacao[i].dataInicio, "\0");
     }
 
 }
@@ -61,9 +73,9 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
             Guerreiro* warrior = obterGuerreiroPeloIndice(i);
             if (codGuerr == warrior->codigo)
             {
+                registrarLocacaoGuerr(codGuerr, 1);
                 strcpy(locacao[qtdLocacao].nomeGuerreiroLocador, warrior->nome);
-                // warrior->checarLocacao = 1;
-                // registrarMudancaGuerr(warrior->checarLocacao, warrior->codigo);
+                locacao[qtdLocacao].codigoGuerreiroLocador = warrior->codigo;
                 break;
             }
         }
@@ -77,15 +89,31 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
                 {
                     return 2;
                 }
-                dragon->unidade = dragon->unidade - qtd;
-                strcpy(locacao[qtdLocacao].nomeDragaoLocado, dragon->nome);
-                registrarMudancaDrag(dragon->unidade, dragon->codigo);
-                locacao[qtdLocacao].valorDiario = dragon->valor * qtd;
-                locacao[qtdLocacao].codigoLocacao = qtdLocacao + 1;
-                locacao[qtdLocacao].quantidadeLocada = qtd;
-                qtdLocacao++;
-                return 1;
-                break;
+                int b;
+                for (b = 0; b < ARRSIZELOCACAO; b++)
+                {
+                    if (locacao[b].codigoLocacao == 0)
+                    {
+                        dragon->unidade = dragon->unidade - qtd;
+                        strcpy(locacao[b].nomeDragaoLocado, dragon->nome);
+                        registrarMudancaDrag(dragon->unidade, dragon->codigo);
+                        registrarLocacaoDrag(dragon->codigo, 1);
+                        locacao[b].valorDiario = dragon->valor * qtd;
+                        locacao[b].codigoLocacao = qtdLocacao + 1;
+                        locacao[b].quantidadeLocada = qtd;
+                        locacao[b].codigoDragaoLocado = dragon->codigo;
+                        //<data
+                        struct tm *tempo;
+                        time_t segundos;
+                        time(&segundos); 
+                        tempo = localtime(&segundos);
+
+                        strcpy(locacao[b].dataInicio, asctime(tempo)); 
+                        //data>
+                        qtdLocacao++;
+                        return 1;
+                    }
+                }
             }
         }
 	}else    
@@ -106,25 +134,51 @@ Locacao* obterLocacaoPeloIndice(int indice)
 
 Locacao* obterLocacaoPeloCodigo(int codigo)
 {
-
+    int i;
+	Locacao* Location = (Locacao*) malloc (sizeof(Locacao));
+	for(i = 0; i < qtdLocacao; i++)
+	{
+		if (locacao[i].codigoLocacao == codigo)
+		{
+			*Location = locacao[i];
+			return Location;
+		}		
+	}
 }
 
 
-int ApagarLocacaoPeloCodigo(int codigo)
+int DevolverLocacaoPeloCodigo(int codigo)
 {
-    int porcentagemArrays = ARRSIZELOCACAO * 0.4;
+    int i, b;
+    Locacao* location = obterLocacaoPeloCodigo(codigo);
 
-    for(i = 0; i < qtdLocacao; i++)
+    Guerreiro* guerreiro = obterGuerreiroPeloCodigo(location->codigoGuerreiroLocador);
+
+    Dragao* dragao = obterDragaoPeloCodigo(location->codigoDragaoLocado);
+    dragao->unidade = dragao->unidade + location->quantidadeLocada;
+    registrarMudancaDrag(dragao->unidade, dragao->codigo);
+
+    registrarLocacaoGuerr(guerreiro->codigo, 2);
+    registrarLocacaoDrag(dragao->codigo, 2);
+
+    //<data
+    
+    struct tm *tempo;
+    time_t segundos;
+    time(&segundos); 
+    tempo = localtime(&segundos);
+    for (i = 0; i < qtdLocacao; i++)
     {
-    	Dragao* dragao = obterDragaoPeloIndice(i);
-        if (locacao[i].codigoLocacao == codigo)
+        if (locacao[i].codigoLocacao == location->codigoLocacao)
         {
-            locacao[i] = locacao[qtdLocacao-1];
-            locacao[qtdLocacao - 1].codigoLocacao = 0;
-            int b;
-            qtdLocacao--;
-            return 1;
-        }
+            strcpy(locacao[i].dataFim, asctime(tempo)); 
+            break;
+        } 
     }
+    
+    //data>
+    return 1;
+            
+        
     return 0;
 }

@@ -20,9 +20,9 @@ void listarGuerreiros()
     {
 		Guerreiro* warrior = obterGuerreiroPeloIndice(i);
         if (warrior != NULL)		
-            printf("\n%d - %s, titulo: %s, reino: %s\n\n",
+            printf("\n%d - %s, titulo: %s, reino: %s, quantidade de locacoes no momento: %d\n\n",
             warrior->codigo, warrior->nome,
-            warrior->titulo, warrior->reino);
+            warrior->titulo, warrior->reino, warrior->checarLocacao);
             free(warrior);
     }
     if (QuantidadeGuerreiros() == 0)
@@ -88,6 +88,8 @@ void funcaoExcluirGuerreiro()
 		printf("Guerreiro APAGADO com sucesso!\n");
 	else if (r==2)
 		printf("Guerreiro APAGADO com sucesso!\nARRAY DIMINUIDO\n");
+	else if (r==3)
+		printf("Para ser apagado do sistema o guerreiro deve devolver todos os seus dragoes antes!\n");
 	else
 		printf("Falha ao apagar o guerreiro!\n");
 }
@@ -171,9 +173,9 @@ void listarDragoes()
     {
         Dragao* dragon = obterDragaoPeloIndice(i);
         if (dragon != NULL)		
-            printf("\n%d - %s, idade: %d, elemento: %s, valor: %.2f, quantidade: %d\n\n",
+            printf("\n%d - %s, idade: %d, elemento: %s, valor: %.2f, quantidade: %d, esta sendo locado por %d pessoas\n\n",
             dragon->codigo, dragon->nome,
-            dragon->idade, dragon->elemento, dragon->valor, dragon->unidade);
+            dragon->idade, dragon->elemento, dragon->valor, dragon->unidade, dragon->checarLocacao);
     }
     if (QuantidadeDragoes() == 0)
     {
@@ -261,10 +263,14 @@ void funcaoExcluirDragao()
     int codigo;
     printf("Digite o codigo do dragao que deseja APAGAR: ");
 	scanf("%d", &codigo);
-	if (ApagarDragaoPeloCodigo(codigo)==1)
+
+	int r = ApagarDragaoPeloCodigo(codigo);
+	if (r==1)
 		printf("Dragao APAGADO com sucesso!\n");
-	else if (ApagarDragaoPeloCodigo(codigo)==2)
+	else if (r==2)
 		printf("Dragao APAGADO com sucesso!\nARRAY DIMINUIDO\n");
+	else if (r==3)
+		printf("Para ser apagado do sistema o dragao deve ser devolvido antes!\n");
 	else
 		printf("Falha ao apagar o dragao!\n");
 }
@@ -453,9 +459,9 @@ void listarLocacoes()
 		{
 			Locacao* location = obterLocacaoPeloIndice(i);
 			if (location->codigoLocacao > 0)		
-				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros pagos diariamente\n\n",
+				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros diarios | inicio da locacao: %s | fim da locacao: %s\n\n",
 				location->codigoLocacao, location->quantidadeLocada, location->nomeDragaoLocado, 
-				location->nomeGuerreiroLocador, location->valorDiario);
+				location->nomeGuerreiroLocador, location->valorDiario, location->dataInicio, location->dataFim);
 		}
 	}
 }
@@ -498,7 +504,7 @@ void funcaoDevolverDragao()
     int codigo, r;
     printf("Digite o codigo da locacao que quer devolver: ");
 	scanf("%d", &codigo);
-	if (ApagarLocacaoPeloCodigo(codigo) == 1)
+	if (DevolverLocacaoPeloCodigo(codigo) == 1)
 		printf("Locacao devolvida com sucesso!\n");
 	else
 		printf("Falha ao devolver a locacao !\n");
@@ -539,6 +545,7 @@ int main(int argc, char *argv[]){
 	time(&segundos); 
 	tempo = localtime(&segundos);  
 	printf("%d/%d/%d\n", tempo->tm_mday, tempo->tm_mon+1, tempo->tm_year+1900);
+	printf("%d:%d:%d\n", tempo->tm_hour, tempo->tm_min, tempo->tm_sec);
 
 	if (inicializarGuerreiros() == 0 || inicializarDragoes() == 0 || inicializarElementos() == 0 || inicializarLocacoes() == 0)
 	{

@@ -1,5 +1,6 @@
 typedef struct {
 	int codigo;
+	int checarLocacao;
 	char nome[30];
 	char reino[30];
 	char titulo[30];
@@ -15,5 +16,5 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo);
 Guerreiro* obterGuerreiroPeloNome (char* nome);
 int ApagarGuerreiroPeloCodigo(int codigo);
 int atualizarGuerreiro(char* mudanca, int m,int opcao,int codigo);
+int registrarLocacaoGuerr(int cod, int aumentarOuDiminuir);
 
-//int registrarMudancaGuerr(int loc, int cod);

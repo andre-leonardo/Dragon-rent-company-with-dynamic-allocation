@@ -5,6 +5,7 @@ typedef struct {
 	float valor;
 	int unidade;
 	int codigoElemento;
+	int checarLocacao;
 	char elemento[30];
 } Dragao;
 
@@ -19,4 +20,5 @@ Dragao* obterDragaoPeloNome (char* nome);
 int ApagarDragaoPeloCodigo(int codigo);
 int atualizarDragao(int mudancaInt, char* mudanca, int m,int opcao,int codigo);
 int registrarMudancaDrag(int qtd, int cod);
+int registrarLocacaoDrag(int cod, int aumentarOuDiminuir);
 
