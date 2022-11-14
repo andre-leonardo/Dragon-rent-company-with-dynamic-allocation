@@ -35,6 +35,7 @@ int inicializarLocacoes()
         locacao[i].codigoGuerreiroLocador = 0;
         locacao[i].codigoDragaoLocado = 0;
         locacao[i].quantidadeLocada = 0;
+        locacao[i].locacaoNaoDevolvida = 0;
         strcpy(locacao[i].dataFim, "\0");
         strcpy(locacao[i].dataInicio, "\0");
     }
@@ -111,6 +112,7 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
                         strcpy(locacao[b].dataInicio, asctime(tempo)); 
                         //data>
                         qtdLocacao++;
+                        locacao[b].locacaoNaoDevolvida = 1;
                         return 1;
                     }
                 }
@@ -161,8 +163,7 @@ int DevolverLocacaoPeloCodigo(int codigo)
     registrarLocacaoGuerr(guerreiro->codigo, 2);
     registrarLocacaoDrag(dragao->codigo, 2);
 
-    //<data
-    
+    //<data   
     struct tm *tempo;
     time_t segundos;
     time(&segundos); 
@@ -171,14 +172,45 @@ int DevolverLocacaoPeloCodigo(int codigo)
     {
         if (locacao[i].codigoLocacao == location->codigoLocacao)
         {
+            locacao[i].locacaoNaoDevolvida = 0;
             strcpy(locacao[i].dataFim, asctime(tempo)); 
             break;
         } 
     }
-    
     //data>
     return 1;
             
         
     return 0;
+}
+
+int ExcluirLocacao(int codigo)
+{
+    int i;
+    int porcentagemArrays = ARRSIZELOCACAO * 0.4;
+    for (i = 0; i < qtdLocacao; i++)
+    {
+        
+        if (locacao[i].codigoLocacao == codigo)
+        {
+            if (locacao[i].locacaoNaoDevolvida == 1)
+            {
+                return 0;
+            }else{
+                locacao[i].codigoLocacao == 0;
+                qtdLocacao--;
+                if (porcentagemArrays == qtdLocacao && ARRSIZELOCACAO > 5)
+                {
+                    Dragao* ArrayMenor = realloc (locacao, (qtdLocacao) * sizeof(Locacao));
+                    if (ArrayMenor != NULL)
+                    {
+                        ARRSIZELOCACAO = qtdLocacao;
+                        locacao = ArrayMenor;
+                        return 2;
+                    }else return 0;
+                }
+                return 1;
+            }
+        }
+    }
 }

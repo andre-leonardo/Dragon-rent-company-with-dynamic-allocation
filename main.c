@@ -501,14 +501,40 @@ void funcaoRealizarLocacao()
 void funcaoDevolverDragao()
 {
     listarLocacoes();
-    int codigo, r;
-    printf("Digite o codigo da locacao que quer devolver: ");
-	scanf("%d", &codigo);
-	if (DevolverLocacaoPeloCodigo(codigo) == 1)
-		printf("Locacao devolvida com sucesso!\n");
+    int codigo;
+	if (QuantidadeLocacoes() == 0)
+	{}
 	else
-		printf("Falha ao devolver a locacao !\n");
+	{
+		printf("Digite o codigo da locacao que quer devolver: ");
+		scanf("%d", &codigo);
+		if (DevolverLocacaoPeloCodigo(codigo) == 1)
+			printf("Locacao devolvida com sucesso!\n");
+		else
+			printf("Falha ao devolver a locacao !\n");
+	}
 }
+
+void ApagarLocacao()
+{
+	listarLocacoes();
+	int codigo, r;
+	if (QuantidadeLocacoes() == 0)
+	{}
+	else
+	{
+		printf("Digite o codigo da locacao que quer apagar do sistema\n");
+		scanf("%d", &codigo);
+		r = ExcluirLocacao(codigo);
+		if (r == 0)
+			printf("Nao e possivel excluir locacoes nao devolvidas\n");
+		else 
+			printf("Locacao apagada com sucesso\n");
+		if (r == 2)
+			printf("ARRAY DIMINUIDO");
+	}
+}
+
 
 
 //MENUS	
@@ -534,7 +560,7 @@ void subMenuElemento()
 
 void subMenuLocacao()
 {
-	printf("0 - Sair\n1 - Locar Dragao\n2 - Listar Locacoes\n3 - Devolver\n5 - Alterar locacao\n\n");	
+	printf("0 - Sair\n1 - Locar Dragao\n2 - Listar Locacoes\n3 - Devolver\n4 - Excluir Locacao\n\n");	
 }
 
 int main(int argc, char *argv[]){
@@ -685,6 +711,10 @@ int main(int argc, char *argv[]){
 				else if (opcao == 3)
 	            {
 					funcaoDevolverDragao();
+	            }
+				else if (opcao == 4)
+	            {
+					ApagarLocacao();
 	            }
 				else
 					printf("Opcao invalida");

@@ -3,6 +3,7 @@ typedef struct {
 	int codigoGuerreiroLocador;
 	int codigoDragaoLocado;
 	int quantidadeLocada;
+	int locacaoNaoDevolvida;
 	float valorDiario;
 	char nomeGuerreiroLocador[30];
 	char nomeDragaoLocado[30];
@@ -19,3 +20,4 @@ int QuantidadeLocacoes();
 Locacao* obterLocacaoPeloIndice(int codigoLocacao);
 Locacao* obterLocacaoPeloCodigo(int codigoLocacao);
 int DevolverLocacaoPeloCodigo(int codigo);
+int ExcluirLocacao(int codigo);
