@@ -48,7 +48,9 @@ int retornaTamanhoLocacoes()
 }
 
 int encerraLocacoes()
-{}
+{
+    free(locacao);
+}
 
 int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
 {
@@ -148,6 +150,35 @@ Locacao* obterLocacaoPeloCodigo(int codigo)
 	}
 }
 
+Locacao* obterLocacaoPeloCodigoDragao(int codigo)
+{
+    int i;
+	Locacao* Location = (Locacao*) malloc (sizeof(Locacao));
+	for(i = 0; i < qtdLocacao; i++)
+	{
+		if (locacao[i].codigoDragaoLocado == codigo)
+		{
+			*Location = locacao[i];
+			return Location;
+		}		
+	}
+}
+
+Locacao* obterLocacaoPeloCodigoGuerreiro(int codigo)
+{
+    int i;
+	Locacao* Location = (Locacao*) malloc (sizeof(Locacao));
+	for(i = 0; i < qtdLocacao; i++)
+	{
+		if (locacao[i].codigoGuerreiroLocador == codigo)
+		{
+			*Location = locacao[i];
+			return Location;
+		}		
+	}
+}
+
+
 
 int DevolverLocacaoPeloCodigo(int codigo)
 {
@@ -212,5 +243,35 @@ int ExcluirLocacao(int codigo)
                 return 1;
             }
         }
+    }
+}
+
+int atualizarLocacao(char* mudanca, int m, int opcao, int codigo)
+{
+    int i;
+    if (opcao == 1)
+    {
+        Locacao* location = obterLocacaoPeloCodigoDragao(codigo);
+        for(i = 0; i < qtdLocacao; i++)
+		{
+			if (location->codigoDragaoLocado == locacao[i].codigoDragaoLocado)
+			{
+				strcpy(locacao[i].nomeDragaoLocado, mudanca);
+				break;
+			}
+		}
+    }
+
+    else if (opcao == 2)
+    {
+        Locacao* location = obterLocacaoPeloCodigoGuerreiro(codigo);
+        for(i = 0; i < qtdLocacao; i++)
+		{
+			if (location->codigoGuerreiroLocador == locacao[i].codigoGuerreiroLocador)
+			{
+				strcpy(locacao[i].nomeGuerreiroLocador, mudanca);
+				break;
+			}
+		}
     }
 }

@@ -1,5 +1,6 @@
 #include "dragoes.h"
 #include "elementos.h"
+#include "locacoes.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -41,7 +42,9 @@ int inicializarDragoes()
 
 
 int encerraDragoes()
-{}
+{
+	free(dragao);
+}
 
 
 
@@ -140,8 +143,27 @@ Dragao* obterDragaoPeloCodigo(int codigo)
 
 int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 {
+	int i, b;
+	Dragao* dragon = obterDragaoPeloCodigo(codigo);
+	for(i = 0; i < qtdDragao; i++)
+	{
+		if (dragon->codigo == dragao[i].codigo)
+		{
+			break;
+		}
+	}
 	if (opcao == 1)
-		strcpy(dragao[codigo-1].nome, mudanca);
+	{
+		strcpy(dragao[i].nome, mudanca);
+		for (b = 0; b < QuantidadeLocacoes(); b++)
+		{
+			Locacao* locacao = obterLocacaoPeloIndice(b);
+			if (locacao->codigoDragaoLocado == codigo)
+			{
+				atualizarLocacao(mudanca, 30, 1, codigo);
+			}
+		}
+	}	
 	else if (opcao == 2)
 		dragao[codigo-1].idade = mudancaInt;
 	else if (opcao == 3)

@@ -462,6 +462,7 @@ void listarLocacoes()
 				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros diarios | inicio da locacao: %s | fim da locacao: %s\n\n",
 				location->codigoLocacao, location->quantidadeLocada, location->nomeDragaoLocado, 
 				location->nomeGuerreiroLocador, location->valorDiario, location->dataInicio, location->dataFim);
+				free(location);
 		}
 	}
 }
@@ -589,6 +590,10 @@ int main(int argc, char *argv[]){
         if (opcao == 0)
         {
             printf("Obrigado por utilizar este programa!");
+			encerraDragoes();
+			encerraElementos();
+			encerraGuerreiros();
+			encerraLocacoes();
             break;
         }
 

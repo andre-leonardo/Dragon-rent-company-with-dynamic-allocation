@@ -1,4 +1,5 @@
 #include "guerreiros.h"
+#include "locacoes.h"
 #include <stdlib.h>
 #include <string.h>
 int ARRSIZEGUERREIRO = 5;
@@ -56,7 +57,9 @@ int inicializarGuerreiros()
 
 
 int encerraGuerreiros()
-{}
+{
+	free(guerreiro);
+}
 
 int salvarGuerreiro(Guerreiro warrior)
 {
@@ -133,21 +136,37 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo)
 		{
 			*Warrior = guerreiro[i];
 			return Warrior;
-		}
-			
+		}		
 	}
-	
-	return Warrior;
 }
 
 int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 {
+	int i, b;
+	Guerreiro* warrior = obterGuerreiroPeloCodigo(codigo);
+	for(i = 0; i < qtdGuerreiro; i++)
+	{
+		if (warrior->codigo == guerreiro[i].codigo)
+		{
+			break;
+		}
+	}
 	if (opcao == 1)
-		strcpy(guerreiro[codigo-1].nome, mudanca);
+	{
+		strcpy(guerreiro[i].nome, mudanca);
+		for (b = 0; b < QuantidadeLocacoes(); b++)
+		{
+			Locacao* locacao = obterLocacaoPeloIndice(b);
+			if (locacao->codigoGuerreiroLocador == codigo)
+			{
+				atualizarLocacao(mudanca, 30, 2, codigo);
+			}
+		}
+	}
 	else if (opcao == 2)
-		strcpy(guerreiro[codigo-1].titulo, mudanca);
+		strcpy(guerreiro[i].titulo, mudanca);
 	else if (opcao == 3)
-		strcpy(guerreiro[codigo-1].reino, mudanca);	
+		strcpy(guerreiro[i].reino, mudanca);	
 }
 
 Guerreiro* obterGuerreiroPeloNome (char* nome)

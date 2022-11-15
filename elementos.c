@@ -39,7 +39,9 @@ int retornaTamanhoElementos()
 }
 
 int encerraElementos()
-{}
+{
+	free(elemento);
+}
 
 int salvarElemento(Elemento element)
 {
@@ -85,7 +87,7 @@ Elemento* obterElementoPeloCodigo(int codigo)
 	for(i = 0; i < qtdElemento; i++)
 	{
 		if (codigo == elemento->codigo)
-			*Element = elemento[codigo-1];
+			*Element = elemento[i];
 	}
 	
 	return Element;
@@ -93,22 +95,31 @@ Elemento* obterElementoPeloCodigo(int codigo)
 
 int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
 {
-	int i, r;
+	int i, b, r;
+	Elemento* element = obterElementoPeloCodigo(codigo);
+	for(i = 0; i < qtdElemento; i++)
+	{
+		if (element->codigo == elemento[i].codigo)
+		{
+			break;
+		}
+	}
 	if (opcao == 1)
 	{
-		strcpy(elemento[codigo-1].nome, mudanca);
-		for (i = 0; i < QuantidadeDragoes(); i++)
+		strcpy(elemento[i].nome, element->nome);	
+		for (b = 0; b < QuantidadeDragoes(); b++)
 		{
-			Dragao* dragon = obterDragaoPeloIndice(i);
+			Dragao* dragon = obterDragaoPeloIndice(b);
 			if (dragon->codigoElemento == codigo) //atualiza o elemento em dragao.c caso algum esteja usando o que foi alterado
 			{
 				r = atualizarDragao(codigo, mudanca, m, 3, dragon->codigo);
+				break;
 			}
 		}
 	}
 	else if (opcao == 2)
 	{
-		strcpy(elemento[codigo-1].vulnerabilidade, mudanca);
+		strcpy(elemento[i].vulnerabilidade, mudanca);
 	}
 	
 	return 0;
