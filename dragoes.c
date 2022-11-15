@@ -37,6 +37,41 @@ int inicializarDragoes()
         strcpy(dragao[0].elemento, "fogo");
         dragao[0].codigoElemento = 1;
         qtdDragao = 1;
+
+		dragao[1].codigo = 2;
+        strcpy(dragao[1].nome, "pedroso");
+        dragao[1].idade = 342;
+        dragao[1].valor = 2352;
+        dragao[1].unidade = 4331;
+        strcpy(dragao[1].elemento, "pedregulhoso");
+        dragao[1].codigoElemento = 2;
+
+		// dragao[2].codigo = 3;
+        // strcpy(dragao[2].nome, "pedrada");
+        // dragao[2].idade = 342;
+        // dragao[2].valor = 2352;
+        // dragao[2].unidade = 4332;
+        // strcpy(dragao[2].elemento, "pedregulhada");
+        // dragao[2].codigoElemento = 3;
+
+		// dragao[3].codigo = 4;
+        // strcpy(dragao[3].nome, "pedroso");
+        // dragao[3].idade = 342;
+        // dragao[3].valor = 2352;
+        // dragao[3].unidade = 4333;
+        // strcpy(dragao[3].elemento, "pedregulho");
+        // dragao[3].codigoElemento = 4;
+
+		// dragao[4].codigo = 5;
+        // strcpy(dragao[4].nome, "pedroso");
+        // dragao[4].idade = 342;
+        // dragao[4].valor = 2352;
+        // dragao[4].unidade = 4334;
+        // strcpy(dragao[4].elemento, "pedregulho");
+        // dragao[4].codigoElemento = 5;
+
+        qtdDragao = 2;
+
         return 1;
 }
 

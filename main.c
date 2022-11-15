@@ -15,20 +15,25 @@
 void listarGuerreiros()
 {
     int i;
-
-    for (i = 0; i < QuantidadeGuerreiros(); i++)
-    {
-		Guerreiro* warrior = obterGuerreiroPeloIndice(i);
-        if (warrior != NULL)		
-            printf("\n%d - %s, titulo: %s, reino: %s, quantidade de locacoes no momento: %d\n\n",
-            warrior->codigo, warrior->nome,
-            warrior->titulo, warrior->reino, warrior->checarLocacao);
-            free(warrior);
-    }
-    if (QuantidadeGuerreiros() == 0)
+	if (QuantidadeGuerreiros() == 0)
     {
         printf("NENHUM GUERREIRO CADASTRADO\n");
-    }
+    }else{
+		for (i = 0; i < QuantidadeGuerreiros(); i++)
+		{
+			Guerreiro* warrior = obterGuerreiroPeloIndice(i);
+			{
+			if (warrior != NULL)		
+				printf("\n%d - %s, titulo: %s, reino: %s, quantidade de locacoes no momento: %d\n\n",
+				warrior->codigo, warrior->nome,
+				warrior->titulo, warrior->reino, warrior->checarLocacao);
+				free(warrior);
+				warrior = NULL;
+			}
+		}
+	}
+
+    
     
 }
 
@@ -74,6 +79,7 @@ void funcaoPesquisarGuerreiro()
         printf("Seu reino eh: %s\n", warrior->reino);
         printf("Seu titulo eh: %s\n", warrior->titulo);
         free(warrior);
+		warrior = NULL;
 	}
 }
 
@@ -209,9 +215,10 @@ void funcaoCadastroDragao()
 		    for (b = 0; b < retornaTamanhoElementos(); b++)
 			{
 				Elemento* element = obterElementoPeloIndice(b);
-				printf("%s\n", element->nome);
 				if (dragon.codigoElemento == element->codigo)
+					printf("%s\n", element->nome);
 					strcpy(dragon.elemento, element->nome);
+					break;
 			}
 		    printf("Digite o valor do dragao: ");
 		    scanf("%f", &dragon.valor);

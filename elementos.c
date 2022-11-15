@@ -22,13 +22,24 @@ int inicializarElementos()
     for (i = 0; i < ARRSIZEELEMENTO; i++)
     {   	
         elemento[i].codigo = 0;
-//        elemento[i].nome[0] = '\0';
-//        elemento[i].vulnerabilidade[0] = '\0';
     }
 		elemento[0].codigo = 1;
         strcpy(elemento[0].nome, "fogo"); 
         strcpy(elemento[0].vulnerabilidade, "agua");
-        qtdElemento = 1;
+		elemento[1].codigo = 2;
+        strcpy(elemento[1].nome, "agua"); 
+        strcpy(elemento[1].vulnerabilidade, "fogo");
+		elemento[2].codigo = 3;
+        strcpy(elemento[2].nome, "pedra"); 
+        strcpy(elemento[2].vulnerabilidade, "divinity original sin 2");
+		elemento[3].codigo = 4;
+        strcpy(elemento[3].nome, "sol"); 
+        strcpy(elemento[3].vulnerabilidade, "entropia");
+		elemento[4].codigo = 5;
+        strcpy(elemento[4].nome, "metallica"); 
+        strcpy(elemento[4].vulnerabilidade, "megadeth");
+
+        qtdElemento = 5;
         
         return 1;
 }
