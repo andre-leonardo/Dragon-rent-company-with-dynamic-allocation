@@ -216,9 +216,11 @@ void funcaoCadastroDragao()
 			{
 				Elemento* element = obterElementoPeloIndice(b);
 				if (dragon.codigoElemento == element->codigo)
+				{
 					printf("%s\n", element->nome);
 					strcpy(dragon.elemento, element->nome);
 					break;
+				}
 			}
 		    printf("Digite o valor do dragao: ");
 		    scanf("%f", &dragon.valor);

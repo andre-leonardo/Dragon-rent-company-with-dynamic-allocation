@@ -200,17 +200,17 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 		}
 	}	
 	else if (opcao == 2)
-		dragao[codigo-1].idade = mudancaInt;
+		dragao[i].idade = mudancaInt;
 	else if (opcao == 3)
 	{
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
-		dragao[codigo-1].codigoElemento = element->codigo;
-		strcpy(dragao[codigo-1].elemento, element->nome);
+		dragao[i].codigoElemento = element->codigo;
+		strcpy(dragao[i].elemento, element->nome);
 	}
 	else if (opcao == 4)
-		dragao[codigo-1].valor = mudancaInt;
+		dragao[i].valor = mudancaInt;
 	else if (opcao == 5)
-		dragao[codigo-1].unidade = mudancaInt;
+		dragao[i].unidade = mudancaInt;
 	return 0;
 }
 

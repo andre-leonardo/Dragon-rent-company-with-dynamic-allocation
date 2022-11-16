@@ -97,7 +97,7 @@ Elemento* obterElementoPeloCodigo(int codigo)
 	Element->codigo = codigo;
 	for(i = 0; i < qtdElemento; i++)
 	{
-		if (codigo == elemento->codigo)
+		if (codigo == elemento[i].codigo)
 			*Element = elemento[i];
 	}
 	
@@ -117,13 +117,13 @@ int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
 	}
 	if (opcao == 1)
 	{
-		strcpy(elemento[i].nome, element->nome);	
+		strcpy(elemento[i].nome, mudanca);	
 		for (b = 0; b < QuantidadeDragoes(); b++)
 		{
 			Dragao* dragon = obterDragaoPeloIndice(b);
 			if (dragon->codigoElemento == codigo) //atualiza o elemento em dragao.c caso algum esteja usando o que foi alterado
 			{
-				r = atualizarDragao(codigo, mudanca, m, 3, dragon->codigo);
+				atualizarDragao(codigo, mudanca, m, 3, dragon->codigo);
 				break;
 			}
 		}
