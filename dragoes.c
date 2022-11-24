@@ -3,8 +3,10 @@
 #include "locacoes.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 int ARRSIZEDRAGAO =  5;
+
 
 Dragao* dragao = NULL;
 int i, qtdDragao = 0;
@@ -29,22 +31,22 @@ int inicializarDragoes()
         dragao[i].checarLocacao = 0;
         // dragao[i].unidadeAnterior[i] = 0;
     }
-    	dragao[0].codigo = 1;
-        strcpy(dragao[0].nome, "pedrao");
-        dragao[0].idade = 25;
-        dragao[0].valor = 48;
-        dragao[0].unidade = 40;
-        strcpy(dragao[0].elemento, "fogo");
-        dragao[0].codigoElemento = 1;
-        qtdDragao = 1;
+    	// dragao[0].codigo = 1;
+        // strcpy(dragao[0].nome, "pedrao");
+        // dragao[0].idade = 25;
+        // dragao[0].valor = 48;
+        // dragao[0].unidade = 40;
+        // strcpy(dragao[0].elemento, "fogo");
+        // dragao[0].codigoElemento = 1;
+        // qtdDragao = 1;
 
-		dragao[1].codigo = 2;
-        strcpy(dragao[1].nome, "pedroso");
-        dragao[1].idade = 342;
-        dragao[1].valor = 2352;
-        dragao[1].unidade = 4331;
-        strcpy(dragao[1].elemento, "pedregulhoso");
-        dragao[1].codigoElemento = 2;
+		// dragao[1].codigo = 2;
+        // strcpy(dragao[1].nome, "pedroso");
+        // dragao[1].idade = 342;
+        // dragao[1].valor = 2352;
+        // dragao[1].unidade = 4331;
+        // strcpy(dragao[1].elemento, "pedregulhoso");
+        // dragao[1].codigoElemento = 2;
 
 		// dragao[2].codigo = 3;
         // strcpy(dragao[2].nome, "pedrada");
@@ -70,7 +72,7 @@ int inicializarDragoes()
         // strcpy(dragao[4].elemento, "pedregulho");
         // dragao[4].codigoElemento = 5;
 
-        qtdDragao = 2;
+        qtdDragao = 0;
 
         return 1;
 }
@@ -101,7 +103,24 @@ int salvarDragao(Dragao dragon)
 			}
 		}
         dragao[qtdDragao] = dragon;
-        qtdDragao++;
+		qtdDragao++;
+		drag = fopen("drago.bin", "wb");
+		if (drag == NULL)
+		{
+			exit(1);
+		}
+
+		fwrite(dragao, sizeof(Dragao)/qtdDragao, qtdDragao, drag);
+		fclose(drag);
+		drag = fopen("drago.bin", "rb");
+		if (drag == NULL)
+		{
+			exit(1);
+		}
+		Dragao input;
+		 while(fread(&input, sizeof(Dragao), 1, drag))
+			printf("%s", input.nome);
+		fclose(drag);
         return 1;
 	}else    
     	return 0;

@@ -26,20 +26,20 @@ int inicializarElementos()
 		elemento[0].codigo = 1;
         strcpy(elemento[0].nome, "fogo"); 
         strcpy(elemento[0].vulnerabilidade, "agua");
-		elemento[1].codigo = 2;
-        strcpy(elemento[1].nome, "agua"); 
-        strcpy(elemento[1].vulnerabilidade, "fogo");
-		elemento[2].codigo = 3;
-        strcpy(elemento[2].nome, "pedra"); 
-        strcpy(elemento[2].vulnerabilidade, "divinity original sin 2");
-		elemento[3].codigo = 4;
-        strcpy(elemento[3].nome, "sol"); 
-        strcpy(elemento[3].vulnerabilidade, "entropia");
-		elemento[4].codigo = 5;
-        strcpy(elemento[4].nome, "metallica"); 
-        strcpy(elemento[4].vulnerabilidade, "megadeth");
+		// elemento[1].codigo = 2;
+        // strcpy(elemento[1].nome, "agua"); 
+        // strcpy(elemento[1].vulnerabilidade, "fogo");
+		// elemento[2].codigo = 3;
+        // strcpy(elemento[2].nome, "pedra"); 
+        // strcpy(elemento[2].vulnerabilidade, "divinity original sin 2");
+		// elemento[3].codigo = 4;
+        // strcpy(elemento[3].nome, "sol"); 
+        // strcpy(elemento[3].vulnerabilidade, "entropia");
+		// elemento[4].codigo = 5;
+        // strcpy(elemento[4].nome, "metallica"); 
+        // strcpy(elemento[4].vulnerabilidade, "megadeth");
 
-        qtdElemento = 5;
+        qtdElemento = 1;
         
         return 1;
 }
@@ -98,10 +98,13 @@ Elemento* obterElementoPeloCodigo(int codigo)
 	for(i = 0; i < qtdElemento; i++)
 	{
 		if (codigo == elemento[i].codigo)
+		{
 			*Element = elemento[i];
+			break;
+		}
+			
 	}
-	
-	return Element;
+		return Element;
 }
 
 int atualizarElemento(char* mudanca, int m,int opcao,int codigo)

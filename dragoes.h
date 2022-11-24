@@ -1,3 +1,4 @@
+#include <stdio.h>
 typedef struct {
 	int codigo;
 	char nome[30];
@@ -8,6 +9,8 @@ typedef struct {
 	int checarLocacao;
 	char elemento[30];
 } Dragao;
+
+FILE* drag;
 
 
 int inicializarDragoes();

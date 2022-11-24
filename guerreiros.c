@@ -27,33 +27,33 @@ int inicializarGuerreiros()
         guerreiro[i].reino[0] = '\0';
         guerreiro[i].checarLocacao = 0;
     }
-    guerreiro[0].codigo = 1;
-    strcpy(guerreiro[0].nome, "adalberto");
-    strcpy(guerreiro[0].titulo, "adalbertius");
-    strcpy(guerreiro[0].reino, "adalbertolandia");
+    //  guerreiro[0].codigo = 1;
+    //  strcpy(guerreiro[0].nome, "adalberto");
+    //  strcpy(guerreiro[0].titulo, "adalbertius");
+    //  strcpy(guerreiro[0].reino, "adalbertolandia");
 
-    guerreiro[1].codigo = 2;
-    strcpy(guerreiro[1].nome, "roberto");
-    strcpy(guerreiro[1].titulo, "robertius");
-    strcpy(guerreiro[1].reino, "robertolandia");
+    //  guerreiro[1].codigo = 2;
+    //  strcpy(guerreiro[1].nome, "roberto");
+    //  strcpy(guerreiro[1].titulo, "robertius");
+    //  strcpy(guerreiro[1].reino, "robertolandia");
 	
-    // guerreiro[2].codigo = 3;
-    // strcpy(guerreiro[2].nome, "eliberto");
-    // strcpy(guerreiro[2].titulo, "elibertius");
-    // strcpy(guerreiro[2].reino, "elibertolandia");
+    //  guerreiro[2].codigo = 3;
+    //  strcpy(guerreiro[2].nome, "eliberto");
+    //  strcpy(guerreiro[2].titulo, "elibertius");
+    //  strcpy(guerreiro[2].reino, "elibertolandia");
 
-    // guerreiro[3].codigo = 4;
-    // strcpy(guerreiro[3].nome, "florisberto");
-    // strcpy(guerreiro[3].titulo, "florisbertius");
-    // strcpy(guerreiro[3].reino, "florlandia");
+    //  guerreiro[3].codigo = 4;
+    //  strcpy(guerreiro[3].nome, "florisberto");
+    //  strcpy(guerreiro[3].titulo, "florisbertius");
+    //  strcpy(guerreiro[3].reino, "florlandia");
 
-    // guerreiro[4].codigo = 5;
-    // strcpy(guerreiro[4].nome, "gilberto");
-    // strcpy(guerreiro[4].titulo, "gilbertius");
-    // strcpy(guerreiro[4].reino, "gilbertolandia");
+    //  guerreiro[4].codigo = 5;
+    //  strcpy(guerreiro[4].nome, "gilberto");
+    //  strcpy(guerreiro[4].titulo, "gilbertius");
+    //  strcpy(guerreiro[4].reino, "gilbertolandia");
     
    
-    qtdGuerreiro = 2;
+    qtdGuerreiro = 0;
     
     return 1;
 }
