@@ -136,12 +136,13 @@ int atualizarElemento(char* mudanca, int m,int opcao,int codigo)
 		strcpy(elemento[i].vulnerabilidade, mudanca);
 	}
 	
+	free(element);//falta free após chamar obterElementoPeloCodigo
+	
 	return 0;
 }
 
 Elemento* obterElementoPeloNome (char* nome)
 {
-	int cont = 0;
 	Elemento* Element = (Elemento*) malloc (sizeof(Elemento));
 	
 	for (i = 0; i < qtdElemento; i++)
@@ -149,15 +150,11 @@ Elemento* obterElementoPeloNome (char* nome)
     	*Element = elemento[i];
         Elemento* element = obterElementoPeloIndice(i);
         if (strcmpi(nome, element->nome) == 0)
-        {
             return Element;
-        }
 
     }
-    if (cont == 0)
-    {
-    	return Element = NULL;
-	}
+    
+    return Element = NULL;//falta return no final da função obterElementoPeloNome
 }
 
 int ApagarElementoPeloCodigo(int codigo)

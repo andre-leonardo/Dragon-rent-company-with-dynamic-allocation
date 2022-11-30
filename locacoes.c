@@ -162,6 +162,7 @@ Locacao* obterLocacaoPeloCodigoDragao(int codigo)
 			return Location;
 		}		
 	}
+	return NULL;//falta return no final da função obterLocacaoPeloCodigoDragao
 }
 
 Locacao* obterLocacaoPeloCodigoGuerreiro(int codigo)
@@ -209,10 +210,14 @@ int DevolverLocacaoPeloCodigo(int codigo)
         } 
     }
     //data>
+    
+    free(location);
+    free(guerreiro);
+    free(dragao);//chamar free em DevolverLocacaoPeloCodigo e em atualizarGuerreiro
+    
+    
     return 1;
             
-        
-    return 0;
 }
 
 int ExcluirLocacao(int codigo)
@@ -260,6 +265,7 @@ int atualizarLocacao(char* mudanca, int m, int opcao, int codigo)
 				break;
 			}
 		}
+		free(location);//chamar free após usar a função obterLocacaoPeloCodigoDragao
     }
 
     else if (opcao == 2)

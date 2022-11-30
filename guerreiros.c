@@ -142,6 +142,8 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo)
 			return Warrior;
 		}		
 	}
+	
+	return NULL;//quando chega no final da função (após o FOR) precisa de return
 }
 
 int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
@@ -164,6 +166,8 @@ int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 			if (locacao->codigoGuerreiroLocador == codigo)
 			{
 				atualizarLocacao(mudanca, 30, 2, codigo);
+				free (locacao);
+				break;
 			}
 		}
 	}
@@ -171,11 +175,12 @@ int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 		strcpy(guerreiro[i].titulo, mudanca);
 	else if (opcao == 3)
 		strcpy(guerreiro[i].reino, mudanca);	
+		
+	free (warrior);//chamar free em DevolverLocacaoPeloCodigo e em atualizarGuerreiro
 }
 
 Guerreiro* obterGuerreiroPeloNome (char* nome)
 {
-	int cont = 0;
 	Guerreiro* Warrior = (Guerreiro*) malloc (sizeof(Guerreiro));
 	
 	for (i = 0; i < qtdGuerreiro; i++)
@@ -186,10 +191,8 @@ Guerreiro* obterGuerreiroPeloNome (char* nome)
             return Warrior;
         }
     }
-    if (cont == 0)
-    {
-    	Warrior = NULL;
-	}
+
+    return	Warrior = NULL;//quando chega no final da função (após o FOR) precisa de return
 }
 
 int ApagarGuerreiroPeloCodigo(int codigo)

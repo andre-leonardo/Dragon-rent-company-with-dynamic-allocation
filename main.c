@@ -22,13 +22,14 @@ void listarGuerreiros()
 		for (i = 0; i < QuantidadeGuerreiros(); i++)
 		{
 			Guerreiro* warrior = obterGuerreiroPeloIndice(i);
-			{
-			if (warrior != NULL)		
+			if (warrior != NULL)
+			{	
 				printf("\n%d - %s, titulo: %s, reino: %s, quantidade de locacoes no momento: %d\n\n",
 				warrior->codigo, warrior->nome,
 				warrior->titulo, warrior->reino, warrior->checarLocacao);
 				free(warrior);
 				warrior = NULL;
+				break;
 			}
 		}
 	}
@@ -163,6 +164,7 @@ void listarElementos()
         if (element->codigo > 0)		
             printf("\n%d - %s, vulnerabilidade: %s\n\n",
             element->codigo, element->nome, element->vulnerabilidade);
+            free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
     }
     if (QuantidadeElementos() == 0)
     {
@@ -219,8 +221,10 @@ void funcaoCadastroDragao()
 				{
 					printf("%s\n", element->nome);
 					strcpy(dragon.elemento, element->nome);
+					free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
 					break;
 				}
+				
 			}
 		    printf("Digite o valor do dragao: ");
 		    scanf("%f", &dragon.valor);
@@ -234,6 +238,8 @@ void funcaoCadastroDragao()
 		        printf("Falha ao cadastrar dragao!\n");
 		        
 		    check++;
+		    
+		    free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
 		        
 		    break;
 		}			
@@ -262,8 +268,8 @@ void funcaoPesquisarDragao()
         printf("Seu elemento eh: %s\n", dragon->elemento);
         printf("Seu valor eh: %f\n", dragon->valor);
         printf("Seu estoque eh: %d\n", dragon->unidade);
-        free(dragon);
 	}
+	free(dragon);
 }
 
 void funcaoExcluirDragao()
@@ -389,9 +395,10 @@ void funcaoPesquisarElemento()
             printf("O codigo do elemento eh %d\n", element->codigo);
             printf("Sua vulnerabilidade eh: %s\n", element->vulnerabilidade);
             printf("Seu codigo eh: %d\n", element->codigo);
-			free(element);
+			
         }
-    }
+        free(element);
+}
 
 void funcaoExcluirElemento()
 {
@@ -467,11 +474,15 @@ void listarLocacoes()
 		for (i = 0; i < QuantidadeLocacoes(); i++)
 		{
 			Locacao* location = obterLocacaoPeloIndice(i);
-			if (location->codigoLocacao > 0)		
+			if (location->codigoLocacao > 0)
+			{
+						
 				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros diarios | inicio da locacao: %s | fim da locacao: %s\n\n",
 				location->codigoLocacao, location->quantidadeLocada, location->nomeDragaoLocado, 
 				location->nomeGuerreiroLocador, location->valorDiario, location->dataInicio, location->dataFim);
 				free(location);
+				break;
+		    }
 		}
 	}
 }

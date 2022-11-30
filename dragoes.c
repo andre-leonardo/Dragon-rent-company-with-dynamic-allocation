@@ -104,23 +104,7 @@ int salvarDragao(Dragao dragon)
 		}
         dragao[qtdDragao] = dragon;
 		qtdDragao++;
-		drag = fopen("drago.bin", "wb");
-		if (drag == NULL)
-		{
-			exit(1);
-		}
 
-		fwrite(dragao, sizeof(Dragao)/qtdDragao, qtdDragao, drag);
-		fclose(drag);
-		drag = fopen("drago.bin", "rb");
-		if (drag == NULL)
-		{
-			exit(1);
-		}
-		Dragao input;
-		 while(fread(&input, sizeof(Dragao), 1, drag))
-			printf("%s", input.nome);
-		fclose(drag);
         return 1;
 	}else    
     	return 0;
@@ -215,6 +199,8 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 			if (locacao->codigoDragaoLocado == codigo)
 			{
 				atualizarLocacao(mudanca, 30, 1, codigo);
+				free(locacao);
+				break;
 			}
 		}
 	}	
@@ -225,32 +211,29 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
 		dragao[i].codigoElemento = element->codigo;
 		strcpy(dragao[i].elemento, element->nome);
+		free(element);//falta free ap�s chamar obterElementoPeloCodigo
 	}
 	else if (opcao == 4)
 		dragao[i].valor = mudancaInt;
 	else if (opcao == 5)
 		dragao[i].unidade = mudancaInt;
+		
+	free(dragon);//na fun��o DevolverLocacaoPeloCodigo, precisa de free. a mesma coisa em registrarMudancaDrag e em atualizarDragao
 	return 0;
 }
 
 Dragao* obterDragaoPeloNome (char* nome)
 {
-	int cont = 0;
 	Dragao* Dragon = (Dragao*) malloc (sizeof(Dragao));
 	
 	for (i = 0; i < qtdDragao; i++)
     {
     	*Dragon = dragao[i];
         if (strcmpi(nome, dragao[i].nome) == 0)
-        {
             return Dragon;
-        }
-
     }
-    if (cont == 0)
-    {
-    	return Dragon = NULL;
-	}
+    
+    return Dragon = NULL;//ta return no final da fun��o obterDragaoPeloNome
 }
 
 int ApagarDragaoPeloCodigo(int codigo)
@@ -283,19 +266,18 @@ int ApagarDragaoPeloCodigo(int codigo)
 }
 
 
-//  ⣿⣿⣿⣿⣿⡏⠉⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠉⠉⠉⠉⠉⠉⢿⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⠄⠄⣀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⠄⢠⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿ 
-//  ⣍⡉⠙⠛⠛⠄⠾⢀⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⠛⠛⠛⠛⣛ 
-//  ⣿⣿⣶⣦⣄⢀⣀⡀⠄⠉⠉⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⣀⡀⠄⣤⣤⣶⣶⣾⣿ 
-//  ⣿⣿⣿⣿⠛⠸⣿⣿⣿⣿⣟⣿⣿⣿⣿⣿⣟⣻⣾⣿⣿⣿⡅⠄⢻⢿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣧⡃⠄⢀⠤⠄⠄⠄⠄⠄⢀⡀⠄⢠⡤⠄⠄⠄⠄⠄⠄⡇⢠⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⡇⠄⢹⠄⠄⠄⠄⠄⠄⢸⣿⠄⠘⠄⠄⠄⠄⠄⠄⢸⢀⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⡝⡇⢄⣀⣀⣀⣀⣠⣴⣸⣿⠄⠈⢀⠄⢀⣀⡀⠄⢨⣾⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⣅⠸⣿⣿⣿⣿⣹⡿⠿⡿⠇⠋⡻⣿⣿⠟⠄⠄⣦⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⣿⠄⣿⡽⣿⠗⠋⠉⠁⠈⠄⠉⠘⠛⣿⢠⠄⠄⣿⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⣿⣧⡘⣿⠏⠄⣠⣤⣄⣠⣤⣀⣠⣄⠻⢸⠃⣼⣿⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⣿⣿⣷⣸⠄⢐⢿⡏⠁⠄⠈⢹⠿⠟⢀⣾⣾⣿⣿⣿⣿⣿⣿⣿⣿ 
-//  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠃⠈⠁⠄⠄⠄⠈⠄⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ 
+// ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠠⠤⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+// ⠀⠀⠀⠀⣀⢤⡒⠉⠁⠀⠒⢂⡀⠀⠀⠀⠈⠉⣒⠤⣀⠀⠀⠀⠀
+// ⠀⠀⣠⠾⠅⠈⠀⠙⠀⠀⠀⠈⠀⠀⢀⣀⣓⡀⠉⠀⠬⠕⢄⠀⠀
+// ⠀⣰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠶⢦⡀⠑⠀⠀⠀⠀⠈⢧⠀
+// ⠀⡇⠀⠀⠀⠀⠀⢤⣀⣀⣀⣀⡀⢀⣀⣀⠙⠀⠀⠀⠀⠀⠀⢸⡄
+// ⠀⢹⡀⠀⠀⠀⠀⡜⠁⠀⠀⠙⡴⠁⠀⠀⠱⡄⠀⠀⠀⠀⠀⣸⠀
+// ⠀⠀⠱⢄⡀⠀⢰⣁⣒⣒⣂⣰⣃⣀⣒⣒⣂⢣⠀⠀⠀⢀⡴⠁⠀
+// ⠀⠀⠀⠀⠙⠲⢼⡀⠀⠙⠀⢠⡇⠀⠛⠀⠀⣌⣀⡤⠖⠉⠀⠀⠀
+// ⠀⠀⠀⠀⠀⠀⢸⡗⢄⣀⡠⠊⠈⢦⣀⣀⠔⡏⠀⠀⠀⠀⠀⠀⠀
+// ⠀⠀⠀⠀⠀⠀⠈⡇⠀⢰⠁⠀⠀⠀⢣⠀⠀⣷⠀⠀⠀⠀⠀⠀⠀
+// ⠀⠀⠀⠀⣠⠔⠊⠉⠁⡏⠀⠀⠀⠀⠘⡆⠤⠿⣄⣀⠀⠀⠀⠀⠀
+// ⠀⠀⠀⠀⣧⠸⠒⣚⡩⡇⠀⠀⠀⠀⠀⣏⣙⠒⢴⠈⡇⠀⠀⠀⠀
+// ⠀⠀⠀⠀⠈⠋⠉⠀⠀⢳⡀⠀⠀⠀⣸⠁⠈⠉⠓⠚⠁⠀⠀⠀⠀
+// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠛⠛ 
 
