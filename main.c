@@ -29,7 +29,7 @@ void listarGuerreiros()
 				warrior->titulo, warrior->reino, warrior->checarLocacao);
 				free(warrior);
 				warrior = NULL;
-				break;
+			
 			}
 		}
 	}
@@ -41,8 +41,6 @@ void listarGuerreiros()
 void funcaoCadastroGuerreiro()
 {
     Guerreiro warrior;
-
-	warrior.codigo = QuantidadeGuerreiros() + 1;
 
 	fflush(stdin);
 	printf("Digite o nome do guerreiro: ");
@@ -164,7 +162,7 @@ void listarElementos()
         if (element->codigo > 0)		
             printf("\n%d - %s, vulnerabilidade: %s\n\n",
             element->codigo, element->nome, element->vulnerabilidade);
-            free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
+            free(element);//falta free em vï¿½rias funï¿½ï¿½es depois de chamar obterElementoPeloIndice
     }
     if (QuantidadeElementos() == 0)
     {
@@ -180,10 +178,11 @@ void listarDragoes()
     for (i = 0; i < QuantidadeDragoes(); i++)
     {
         Dragao* dragon = obterDragaoPeloIndice(i);
+        Elemento* element = obterElementoPeloCodigo(dragon->codigoElemento);
         if (dragon != NULL)		
             printf("\n%d - %s, idade: %d, elemento: %s, valor: %.2f, quantidade: %d, esta sendo locado por %d pessoas\n\n",
             dragon->codigo, dragon->nome,
-            dragon->idade, dragon->elemento, dragon->valor, dragon->unidade, dragon->checarLocacao);
+            dragon->idade, element->nome, dragon->valor, dragon->unidade, dragon->checarLocacao);
     }
     if (QuantidadeDragoes() == 0)
     {
@@ -202,7 +201,6 @@ void funcaoCadastroDragao()
     	Elemento* element = obterElementoPeloIndice(i);
     	if (element->codigo > 0)
 		{
-			dragon.codigo = QuantidadeDragoes() + 1;
 		
 			fflush(stdin);
 			printf("Digite o nome do dragao: ");
@@ -214,18 +212,7 @@ void funcaoCadastroDragao()
 		    listarElementos();
 		    printf("Digite o codigo do elemento do dragao: ");
 		    scanf("%d", &dragon.codigoElemento);
-		    for (b = 0; b < retornaTamanhoElementos(); b++)
-			{
-				Elemento* element = obterElementoPeloIndice(b);
-				if (dragon.codigoElemento == element->codigo)
-				{
-					printf("%s\n", element->nome);
-					strcpy(dragon.elemento, element->nome);
-					free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
-					break;
-				}
-				
-			}
+	
 		    printf("Digite o valor do dragao: ");
 		    scanf("%f", &dragon.valor);
 		    
@@ -239,7 +226,7 @@ void funcaoCadastroDragao()
 		        
 		    check++;
 		    
-		    free(element);//falta free em várias funções depois de chamar obterElementoPeloIndice
+		    free(element);//falta free em vï¿½rias funï¿½ï¿½es depois de chamar obterElementoPeloIndice
 		        
 		    break;
 		}			
@@ -259,13 +246,13 @@ void funcaoPesquisarDragao()
     printf("Digite o nome do dragao: ");
 	scanf("%[^\n]s", procurado);
 	Dragao* dragon = obterDragaoPeloNome(procurado);
-	
+	Elemento* element = obterElementoPeloCodigo(dragon->codigoElemento);
 	if (dragon == NULL)
 		printf("Nenhum dragao com este nome encontrado\n");
 	else{
 		printf("O codigo do dragao eh: %d\n", dragon->codigo);
         printf("Sua idade eh: %d\n", dragon->idade);
-        printf("Seu elemento eh: %s\n", dragon->elemento);
+        printf("Seu elemento eh: %s\n", element->nome);
         printf("Seu valor eh: %f\n", dragon->valor);
         printf("Seu estoque eh: %d\n", dragon->unidade);
 	}
@@ -363,7 +350,6 @@ void funcaoCadastroElemento()
     Elemento element;
     
 
-	element.codigo = QuantidadeElementos() + 1;
 
 	fflush(stdin);
 	printf("Digite o nome do elemento: ");
@@ -474,14 +460,16 @@ void listarLocacoes()
 		for (i = 0; i < QuantidadeLocacoes(); i++)
 		{
 			Locacao* location = obterLocacaoPeloIndice(i);
+			
 			if (location->codigoLocacao > 0)
 			{
+				Guerreiro* warrior = obterGuerreiroPeloCodigo(location->codigoGuerreiroLocador);
+				Dragao* dragon = obterDragaoPeloCodigo(location->codigoDragaoLocado);
 						
 				printf("\n%d - %d unidades de %s, locado por: %s pela bagatela de %.2f dinheiros diarios | inicio da locacao: %s | fim da locacao: %s\n\n",
-				location->codigoLocacao, location->quantidadeLocada, location->nomeDragaoLocado, 
-				location->nomeGuerreiroLocador, location->valorDiario, location->dataInicio, location->dataFim);
+				location->codigoLocacao, location->quantidadeLocada, dragon->nome, 
+				warrior->nome, location->valorDiario, location->dataInicio, location->dataFim);
 				free(location);
-				break;
 		    }
 		}
 	}
@@ -493,7 +481,6 @@ void funcaoRealizarLocacao()
     Locacao location;
     int quantidade;
 	
-	location.codigoLocacao = QuantidadeLocacoes() + 1;
 	
 	listarGuerreiros();
 	printf("Digite o codigo do guerreiro: ");
@@ -533,6 +520,35 @@ void funcaoDevolverDragao()
 			printf("Locacao devolvida com sucesso!\n");
 		else
 			printf("Falha ao devolver a locacao !\n");
+	}
+}
+
+void funcaoPesquisarLocacao()
+{
+    char codigo;
+    int i;
+
+    fflush(stdin);
+    printf("Digite o codigo da locacao: ");
+	scanf("%d", &codigo);
+	Locacao* location = obterLocacaoPeloCodigo(codigo);
+	Guerreiro* warrior = obterGuerreiroPeloCodigo(location->codigoGuerreiroLocador);
+	Dragao* dragon = obterDragaoPeloCodigo(location->codigoDragaoLocado);
+	Elemento* element = obterElementoPeloCodigo(dragon->codigoElemento);
+	if (location == NULL)
+		printf("Nenhuma locacao com este codigo encontrada");
+	else{
+        printf("Nome do guerreiro: %s\n", warrior->nome);
+        printf("Titulo do guerreiro: %s\n", warrior->titulo);
+        printf("Nome do dragao: %s\n", dragon->nome);
+        printf("Elemento do dragao: %s\n", element->nome);
+        printf("Quantidade locada: %d\n", location->quantidadeLocada);
+        printf("Valor diario da locacao: %.2f\n", location->valorDiario);
+        
+        free(location);
+        free(warrior);
+        free(dragon);
+        free(element);
 	}
 }
 
@@ -581,7 +597,7 @@ void subMenuElemento()
 
 void subMenuLocacao()
 {
-	printf("0 - Sair\n1 - Locar Dragao\n2 - Listar Locacoes\n3 - Devolver\n4 - Excluir Locacao\n\n");	
+	printf("0 - Sair\n1 - Locar Dragao\n2 - Pesquisar\n3 - Devolver\n4 - Listar Locacoes\n5 - Excluir Locacao\n\n");	
 }
 
 int main(int argc, char *argv[]){
@@ -731,13 +747,17 @@ int main(int argc, char *argv[]){
 					funcaoRealizarLocacao();
 				else if (opcao == 2)
 	            {
-					listarLocacoes();
+					funcaoPesquisarLocacao();
 	            }
 				else if (opcao == 3)
 	            {
 					funcaoDevolverDragao();
 	            }
 				else if (opcao == 4)
+	            {
+					listarLocacoes();
+	            }
+	            else if (opcao == 5)
 	            {
 					ApagarLocacao();
 	            }

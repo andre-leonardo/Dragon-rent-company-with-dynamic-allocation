@@ -7,7 +7,7 @@ typedef struct {
 	int unidade;
 	int codigoElemento;
 	int checarLocacao;
-	char elemento[30];
+	//removi a variavel char elemento
 } Dragao;
 
 FILE* drag;

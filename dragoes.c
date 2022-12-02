@@ -9,11 +9,12 @@ int ARRSIZEDRAGAO =  5;
 
 
 Dragao* dragao = NULL;
-int i, qtdDragao = 0;
+int qtdDragao = 0, codigoAtualDragoes = 0;
 
 
 int inicializarDragoes()
 {
+	int i;
     dragao = (Dragao*) malloc (ARRSIZEDRAGAO * sizeof(Dragao));
     if (dragao == NULL)
 	{
@@ -87,6 +88,7 @@ int encerraDragoes()
 
 int salvarDragao(Dragao dragon)
 { 
+	int i;
 	if (dragao != NULL)
     {
     	if (qtdDragao == ARRSIZEDRAGAO)
@@ -102,9 +104,15 @@ int salvarDragao(Dragao dragon)
 				return 0;
 			}
 		}
+		for(i = 0; i < ARRSIZEDRAGAO; i++)
+		{
+			if(dragao[i].codigo > codigoAtualDragoes)//arrumar a geração de código.
+				codigoAtualDragoes = dragao[i].codigo;
+		}
+		dragon.codigo = codigoAtualDragoes + 1;
         dragao[qtdDragao] = dragon;
 		qtdDragao++;
-
+		
         return 1;
 	}else    
     	return 0;
@@ -193,16 +201,6 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 	if (opcao == 1)
 	{
 		strcpy(dragao[i].nome, mudanca);
-		for (b = 0; b < QuantidadeLocacoes(); b++)
-		{
-			Locacao* locacao = obterLocacaoPeloIndice(b);
-			if (locacao->codigoDragaoLocado == codigo)
-			{
-				atualizarLocacao(mudanca, 30, 1, codigo);
-				free(locacao);
-				break;
-			}
-		}
 	}	
 	else if (opcao == 2)
 		dragao[i].idade = mudancaInt;
@@ -210,7 +208,7 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 	{
 		Elemento* element = obterElementoPeloCodigo(mudancaInt);
 		dragao[i].codigoElemento = element->codigo;
-		strcpy(dragao[i].elemento, element->nome);
+		//strcpy(dragao[i].elemento, element->nome);
 		free(element);//falta free ap�s chamar obterElementoPeloCodigo
 	}
 	else if (opcao == 4)
@@ -224,6 +222,7 @@ int atualizarDragao(int mudancaInt, char* mudanca, int m, int opcao,int codigo)
 
 Dragao* obterDragaoPeloNome (char* nome)
 {
+	int i;
 	Dragao* Dragon = (Dragao*) malloc (sizeof(Dragao));
 	
 	for (i = 0; i < qtdDragao; i++)
@@ -233,11 +232,12 @@ Dragao* obterDragaoPeloNome (char* nome)
             return Dragon;
     }
     
-    return Dragon = NULL;//ta return no final da fun��o obterDragaoPeloNome
+    return Dragon = NULL;//falta return no final da fun��o obterDragaoPeloNome
 }
 
 int ApagarDragaoPeloCodigo(int codigo)
 {
+	int i;
 	int porcentagemArrays = ARRSIZEDRAGAO * 0.4;
 
     for(i = 0; i < qtdDragao; i++)
@@ -266,18 +266,19 @@ int ApagarDragaoPeloCodigo(int codigo)
 }
 
 
-// ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠠⠤⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⣀⢤⡒⠉⠁⠀⠒⢂⡀⠀⠀⠀⠈⠉⣒⠤⣀⠀⠀⠀⠀
-// ⠀⠀⣠⠾⠅⠈⠀⠙⠀⠀⠀⠈⠀⠀⢀⣀⣓⡀⠉⠀⠬⠕⢄⠀⠀
-// ⠀⣰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠶⢦⡀⠑⠀⠀⠀⠀⠈⢧⠀
-// ⠀⡇⠀⠀⠀⠀⠀⢤⣀⣀⣀⣀⡀⢀⣀⣀⠙⠀⠀⠀⠀⠀⠀⢸⡄
-// ⠀⢹⡀⠀⠀⠀⠀⡜⠁⠀⠀⠙⡴⠁⠀⠀⠱⡄⠀⠀⠀⠀⠀⣸⠀
-// ⠀⠀⠱⢄⡀⠀⢰⣁⣒⣒⣂⣰⣃⣀⣒⣒⣂⢣⠀⠀⠀⢀⡴⠁⠀
-// ⠀⠀⠀⠀⠙⠲⢼⡀⠀⠙⠀⢠⡇⠀⠛⠀⠀⣌⣀⡤⠖⠉⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⢸⡗⢄⣀⡠⠊⠈⢦⣀⣀⠔⡏⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠈⡇⠀⢰⠁⠀⠀⠀⢣⠀⠀⣷⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⣠⠔⠊⠉⠁⡏⠀⠀⠀⠀⠘⡆⠤⠿⣄⣀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⣧⠸⠒⣚⡩⡇⠀⠀⠀⠀⠀⣏⣙⠒⢴⠈⡇⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠈⠋⠉⠀⠀⢳⡀⠀⠀⠀⣸⠁⠈⠉⠓⠚⠁⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠛⠛ 
+//  ⣿⣿⣿⣿⣿⡏⠉⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠉⠉⠉⠉⠉⠉⢿⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠸⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⠄⠄⣀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⠄⢠⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿ 
+//  ⣍⡉⠙⠛⠛⠄⠾⢀⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⠛⠛⠛⠛⣛ 
+//  ⣿⣿⣶⣦⣄⢀⣀⡀⠄⠉⠉⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⣀⡀⠄⣤⣤⣶⣶⣾⣿ 
+//  ⣿⣿⣿⣿⠛⠸⣿⣿⣿⣿⣟⣿⣿⣿⣿⣿⣟⣻⣾⣿⣿⣿⡅⠄⢻⢿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣧⡃⠄⢀⠤⠄⠄⠄⠄⠄⢀⡀⠄⢠⡤⠄⠄⠄⠄⠄⠄⡇⢠⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⡇⠄⢹⠄⠄⠄⠄⠄⠄⢸⣿⠄⠘⠄⠄⠄⠄⠄⠄⢸⢀⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⡝⡇⢄⣀⣀⣀⣀⣠⣴⣸⣿⠄⠈⢀⠄⢀⣀⡀⠄⢨⣾⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⣅⠸⣿⣿⣿⣿⣹⡿⠿⡿⠇⠋⡻⣿⣿⠟⠄⠄⣦⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⣿⠄⣿⡽⣿⠗⠋⠉⠁⠈⠄⠉⠘⠛⣿⢠⠄⠄⣿⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⣿⣧⡘⣿⠏⠄⣠⣤⣄⣠⣤⣀⣠⣄⠻⢸⠃⣼⣿⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⣿⣿⣷⣸⠄⢐⢿⡏⠁⠄⠈⢹⠿⠟⢀⣾⣾⣿⣿⣿⣿⣿⣿⣿⣿ 
+//  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠃⠈⠁⠄⠄⠄⠈⠄⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ 
 

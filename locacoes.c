@@ -18,11 +18,12 @@
 int ARRSIZELOCACAO =  5;
 
 Locacao* locacao = NULL;
-int i, qtdLocacao = 0;
+int qtdLocacao = 0, codigoAtualLocacoes = 0;
 
 
 int inicializarLocacoes()
 {
+	int i;
 	locacao = (Locacao*) malloc (ARRSIZELOCACAO * sizeof(Locacao));
     if (locacao == NULL)
 	{
@@ -77,7 +78,7 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
             if (codGuerr == warrior->codigo)
             {
                 registrarLocacaoGuerr(codGuerr, 1);
-                strcpy(locacao[qtdLocacao].nomeGuerreiroLocador, warrior->nome);
+                
                 locacao[qtdLocacao].codigoGuerreiroLocador = warrior->codigo;
                 break;
             }
@@ -98,9 +99,14 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
                     if (locacao[b].codigoLocacao == 0)
                     {
                         dragon->unidade = dragon->unidade - qtd;
-                        strcpy(locacao[b].nomeDragaoLocado, dragon->nome);
                         registrarMudancaDrag(dragon->unidade, dragon->codigo);
                         registrarLocacaoDrag(dragon->codigo, 1);
+                        for(i = 0; i < ARRSIZELOCACAO; i++)
+                            {
+                                if(locacao[i].codigoLocacao > codigoAtualLocacoes)//arrumar a geraÃ§Ã£o de cÃ³digo.
+                                    codigoAtualLocacoes = locacao[i].codigoLocacao;
+                            }
+                        locacao[b].codigoLocacao = codigoAtualLocacoes + 1;
                         locacao[b].valorDiario = dragon->valor * qtd;
                         locacao[b].codigoLocacao = qtdLocacao + 1;
                         locacao[b].quantidadeLocada = qtd;
@@ -113,6 +119,7 @@ int salvarLocacao(Locacao location, int codDrag, int codGuerr, int qtd)
 
                         strcpy(locacao[b].dataInicio, asctime(tempo)); 
                         //data>
+
                         qtdLocacao++;
                         locacao[b].locacaoNaoDevolvida = 1;
                         return 1;
@@ -128,6 +135,8 @@ int QuantidadeLocacoes()
 {
     return qtdLocacao;
 }
+
+
 
 Locacao* obterLocacaoPeloIndice(int indice)
 {
@@ -148,6 +157,7 @@ Locacao* obterLocacaoPeloCodigo(int codigo)
 			return Location;
 		}		
 	}
+	return NULL;
 }
 
 Locacao* obterLocacaoPeloCodigoDragao(int codigo)
@@ -162,7 +172,7 @@ Locacao* obterLocacaoPeloCodigoDragao(int codigo)
 			return Location;
 		}		
 	}
-	return NULL;//falta return no final da função obterLocacaoPeloCodigoDragao
+	return NULL;//falta return no final da funï¿½ï¿½o obterLocacaoPeloCodigoDragao
 }
 
 Locacao* obterLocacaoPeloCodigoGuerreiro(int codigo)
@@ -177,6 +187,7 @@ Locacao* obterLocacaoPeloCodigoGuerreiro(int codigo)
 			return Location;
 		}		
 	}
+	return NULL;
 }
 
 
@@ -251,33 +262,4 @@ int ExcluirLocacao(int codigo)
     }
 }
 
-int atualizarLocacao(char* mudanca, int m, int opcao, int codigo)
-{
-    int i;
-    if (opcao == 1)
-    {
-        Locacao* location = obterLocacaoPeloCodigoDragao(codigo);
-        for(i = 0; i < qtdLocacao; i++)
-		{
-			if (location->codigoDragaoLocado == locacao[i].codigoDragaoLocado)
-			{
-				strcpy(locacao[i].nomeDragaoLocado, mudanca);
-				break;
-			}
-		}
-		free(location);//chamar free após usar a função obterLocacaoPeloCodigoDragao
-    }
 
-    else if (opcao == 2)
-    {
-        Locacao* location = obterLocacaoPeloCodigoGuerreiro(codigo);
-        for(i = 0; i < qtdLocacao; i++)
-		{
-			if (location->codigoGuerreiroLocador == locacao[i].codigoGuerreiroLocador)
-			{
-				strcpy(locacao[i].nomeGuerreiroLocador, mudanca);
-				break;
-			}
-		}
-    }
-}

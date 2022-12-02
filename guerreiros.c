@@ -7,11 +7,12 @@ int ARRSIZEGUERREIRO = 5;
 
 
 Guerreiro *guerreiro = NULL;
-int i, qtdGuerreiro = 0;
+int qtdGuerreiro = 0, codigoAtualGuerreiros = 0;
 
 
 int inicializarGuerreiros()
 {
+	int i;
 	
 	guerreiro = (Guerreiro*) malloc (ARRSIZEGUERREIRO * sizeof(Guerreiro));
 	if (guerreiro == NULL)
@@ -67,6 +68,7 @@ int encerraGuerreiros()
 
 int salvarGuerreiro(Guerreiro warrior)
 {
+	int i;
 	if (guerreiro != NULL)
 	{
     	if (qtdGuerreiro == ARRSIZEGUERREIRO)
@@ -82,6 +84,12 @@ int salvarGuerreiro(Guerreiro warrior)
 				return 0;
 			}
 		}
+		for(i = 0; i < ARRSIZEGUERREIRO; i++)
+		{
+			if(guerreiro[i].codigo > codigoAtualGuerreiros)//o cÃ³digo deve ser gerado dentro da funÃ§Ã£o salvarGuerreiro. a quantidade de guerreiros nÃ£o consegue gerar um cÃ³digo vÃ¡lido sempre. ele pode gerar guerreiros com cÃ³digos iguais.
+				codigoAtualGuerreiros = guerreiro[i].codigo;
+		}
+		warrior.codigo = codigoAtualGuerreiros + 1;
         guerreiro[qtdGuerreiro] = warrior;
         qtdGuerreiro++;
         return 1;
@@ -143,12 +151,12 @@ Guerreiro* obterGuerreiroPeloCodigo(int codigo)
 		}		
 	}
 	
-	return NULL;//quando chega no final da função (após o FOR) precisa de return
+	return NULL;//quando chega no final da funï¿½ï¿½o (apï¿½s o FOR) precisa de return
 }
 
 int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 {
-	int i, b;
+	int i;
 	Guerreiro* warrior = obterGuerreiroPeloCodigo(codigo);
 	for(i = 0; i < qtdGuerreiro; i++)
 	{
@@ -160,16 +168,6 @@ int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 	if (opcao == 1)
 	{
 		strcpy(guerreiro[i].nome, mudanca);
-		for (b = 0; b < QuantidadeLocacoes(); b++)
-		{
-			Locacao* locacao = obterLocacaoPeloIndice(b);
-			if (locacao->codigoGuerreiroLocador == codigo)
-			{
-				atualizarLocacao(mudanca, 30, 2, codigo);
-				free (locacao);
-				break;
-			}
-		}
 	}
 	else if (opcao == 2)
 		strcpy(guerreiro[i].titulo, mudanca);
@@ -181,6 +179,7 @@ int atualizarGuerreiro(char* mudanca, int m, int opcao,int codigo)
 
 Guerreiro* obterGuerreiroPeloNome (char* nome)
 {
+	int i;
 	Guerreiro* Warrior = (Guerreiro*) malloc (sizeof(Guerreiro));
 	
 	for (i = 0; i < qtdGuerreiro; i++)
@@ -192,11 +191,12 @@ Guerreiro* obterGuerreiroPeloNome (char* nome)
         }
     }
 
-    return	Warrior = NULL;//quando chega no final da função (após o FOR) precisa de return
+    return	Warrior = NULL;//quando chega no final da funï¿½ï¿½o (apï¿½s o FOR) precisa de return
 }
 
 int ApagarGuerreiroPeloCodigo(int codigo)
 {
+	int i;
 	int porcentagemArrays = ARRSIZEGUERREIRO * 0.4;
 	
     for(i = 0; i < qtdGuerreiro; i++)
